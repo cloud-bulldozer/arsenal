@@ -17,22 +17,24 @@
   "gnetId": 10092,
   "graphTooltip": 0,
   "id": "",
-  "iteration": 1560352549130,
+  "iteration": 1578919005079,
   "links": [],
   "panels": [
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 0,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 89,
       "legend": {
         "avg": false,
@@ -47,7 +49,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -122,18 +126,20 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 8,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 90,
       "legend": {
         "avg": false,
@@ -148,7 +154,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -223,18 +231,20 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "fill": 0,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 16,
         "y": 0
       },
+      "hiddenSeries": false,
       "id": 91,
       "legend": {
         "avg": false,
@@ -249,7 +259,9 @@
       "linewidth": 2,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -324,7 +336,6 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {
         "Busy": "#EAB839",
         "Busy Iowait": "#890F02",
@@ -344,15 +355,18 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Basic CPU info",
       "fill": 4,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 0,
         "y": 8
       },
+      "hiddenSeries": false,
       "id": 45,
       "legend": {
         "alignAsTable": false,
@@ -373,7 +387,9 @@
       "links": [],
       "maxPerRow": 6,
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": true,
       "pointradius": 5,
       "points": false,
@@ -498,7 +514,6 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {
         "Busy": "#EAB839",
         "Busy Iowait": "#890F02",
@@ -518,15 +533,18 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Basic CPU info",
       "fill": 4,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 8,
         "y": 8
       },
+      "hiddenSeries": false,
       "id": 46,
       "legend": {
         "alignAsTable": false,
@@ -547,7 +565,9 @@
       "links": [],
       "maxPerRow": 6,
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": true,
       "pointradius": 5,
       "points": false,
@@ -672,7 +692,6 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {
         "Busy": "#EAB839",
         "Busy Iowait": "#890F02",
@@ -692,15 +711,18 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "decimals": 2,
       "description": "Basic CPU info",
       "fill": 4,
+      "fillGradient": 0,
       "gridPos": {
         "h": 8,
         "w": 8,
         "x": 16,
         "y": 8
       },
+      "hiddenSeries": false,
       "id": 47,
       "legend": {
         "alignAsTable": false,
@@ -721,7 +743,9 @@
       "links": [],
       "maxPerRow": 6,
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": true,
       "pointradius": 5,
       "points": false,
@@ -846,11 +870,11 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "fill": 4,
       "fillGradient": 0,
       "gridPos": {
@@ -859,6 +883,7 @@
         "x": 0,
         "y": 16
       },
+      "hiddenSeries": false,
       "id": 96,
       "legend": {
         "alignAsTable": false,
@@ -895,28 +920,28 @@
         {
           "expr": "sum(node_memory_MemTotal_bytes{instance=~\"master0\",job=~\".*\"})",
           "hide": false,
+          "instant": false,
           "intervalFactor": 1,
           "legendFormat": "Total Physical",
-          "refId": "A",
-          "instant": false
+          "refId": "A"
         },
         {
           "expr": "sum(node_memory_Active_bytes{instance=~\"master0\",job=~\".*\"})",
           "format": "time_series",
           "hide": true,
+          "instant": false,
           "intervalFactor": 1,
           "legendFormat": "Active",
-          "refId": "F",
-          "instant": false
+          "refId": "F"
         },
         {
           "expr": "sum(node_memory_Cached_bytes{instance=~\"master0\",job=~\".*\"} + node_memory_Buffers_bytes{instance=~\"master0\",job=~\".*\"})",
           "format": "time_series",
           "hide": false,
+          "instant": false,
           "intervalFactor": 1,
           "legendFormat": "Cached + Buffers",
-          "refId": "B",
-          "instant": false
+          "refId": "B"
         },
         {
           "expr": "sum(node_memory_MemAvailable_bytes{instance=~\"master0\",job=~\".*\"} - (node_memory_Cached_bytes{instance=~\"master0\",job=~\".*\"} + node_memory_Buffers_bytes{instance=~\"master0\",job=~\".*\"}))",
@@ -927,31 +952,31 @@
           "refId": "D"
         },
         {
-          "refId": "C",
           "expr": "sum(node_memory_Dirty_bytes{instance=~\"master0\",job=~\".*\"})",
+          "intervalFactor": 1,
           "legendFormat": "Dirty",
-          "intervalFactor": 1
+          "refId": "C"
         },
         {
-          "refId": "E",
           "expr": "sum(node_memory_AnonPages_bytes{instance=~\"master0\",job=~\".*\"})",
-          "legendFormat": "Anon Pages"
+          "legendFormat": "Anon Pages",
+          "refId": "E"
         },
         {
-          "refId": "G",
           "expr": "sum(node_memory_Slab_bytes{instance=~\"master0\",job=~\".*\"})",
-          "legendFormat": "Kernel Slab"
+          "legendFormat": "Kernel Slab",
+          "refId": "G"
         },
         {
-          "refId": "H",
           "expr": "sum(node_memory_VmallocUsed_bytes{instance=~\"master0\",job=~\".*\"})",
-          "legendFormat": "VM Alloc Used"
+          "legendFormat": "VM Alloc Used",
+          "refId": "H"
         },
         {
-          "refId": "I",
           "expr": "sum(node_memory_MemFree_bytes{instance=~\"master0\",job=~\".*\"})",
+          "hide": true,
           "legendFormat": "Free",
-          "hide": true
+          "refId": "I"
         }
       ],
       "thresholds": [],
@@ -995,15 +1020,14 @@
       "yaxis": {
         "align": false,
         "alignLevel": null
-      },
-      "hiddenSeries": false
+      }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "fill": 4,
       "fillGradient": 0,
       "gridPos": {
@@ -1012,6 +1036,7 @@
         "x": 8,
         "y": 16
       },
+      "hiddenSeries": false,
       "id": 97,
       "legend": {
         "alignAsTable": false,
@@ -1048,28 +1073,28 @@
         {
           "expr": "sum(node_memory_MemTotal_bytes{instance=~\"master1\",job=~\".*\"})",
           "hide": false,
+          "instant": false,
           "intervalFactor": 1,
           "legendFormat": "Total Physical",
-          "refId": "A",
-          "instant": false
+          "refId": "A"
         },
         {
           "expr": "sum(node_memory_Active_bytes{instance=~\"master1\",job=~\".*\"})",
           "format": "time_series",
           "hide": true,
+          "instant": false,
           "intervalFactor": 1,
           "legendFormat": "Active",
-          "refId": "F",
-          "instant": false
+          "refId": "F"
         },
         {
           "expr": "sum(node_memory_Cached_bytes{instance=~\"master1\",job=~\".*\"} + node_memory_Buffers_bytes{instance=~\"master1\",job=~\".*\"})",
           "format": "time_series",
           "hide": false,
+          "instant": false,
           "intervalFactor": 1,
           "legendFormat": "Cached + Buffers",
-          "refId": "B",
-          "instant": false
+          "refId": "B"
         },
         {
           "expr": "sum(node_memory_MemAvailable_bytes{instance=~\"master1\",job=~\".*\"} - (node_memory_Cached_bytes{instance=~\"master1\",job=~\".*\"} + node_memory_Buffers_bytes{instance=~\"master1\",job=~\".*\"}))",
@@ -1080,31 +1105,31 @@
           "refId": "D"
         },
         {
-          "refId": "C",
           "expr": "sum(node_memory_Dirty_bytes{instance=~\"master1\",job=~\".*\"})",
+          "intervalFactor": 1,
           "legendFormat": "Dirty",
-          "intervalFactor": 1
+          "refId": "C"
         },
         {
-          "refId": "E",
           "expr": "sum(node_memory_AnonPages_bytes{instance=~\"master1\",job=~\".*\"})",
-          "legendFormat": "Anon Pages"
+          "legendFormat": "Anon Pages",
+          "refId": "E"
         },
         {
-          "refId": "G",
           "expr": "sum(node_memory_Slab_bytes{instance=~\"master1\",job=~\".*\"})",
-          "legendFormat": "Kernel Slab"
+          "legendFormat": "Kernel Slab",
+          "refId": "G"
         },
         {
-          "refId": "H",
           "expr": "sum(node_memory_VmallocUsed_bytes{instance=~\"master1\",job=~\".*\"})",
-          "legendFormat": "VM Alloc Used"
+          "legendFormat": "VM Alloc Used",
+          "refId": "H"
         },
         {
-          "refId": "I",
           "expr": "sum(node_memory_MemFree_bytes{instance=~\"master1\",job=~\".*\"})",
+          "hide": true,
           "legendFormat": "Free",
-          "hide": true
+          "refId": "I"
         }
       ],
       "thresholds": [],
@@ -1148,15 +1173,14 @@
       "yaxis": {
         "align": false,
         "alignLevel": null
-      },
-      "hiddenSeries": false
+      }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "fill": 4,
       "fillGradient": 0,
       "gridPos": {
@@ -1165,6 +1189,7 @@
         "x": 16,
         "y": 16
       },
+      "hiddenSeries": false,
       "id": 98,
       "legend": {
         "alignAsTable": false,
@@ -1201,28 +1226,28 @@
         {
           "expr": "sum(node_memory_MemTotal_bytes{instance=~\"master2\",job=~\".*\"})",
           "hide": false,
+          "instant": false,
           "intervalFactor": 1,
           "legendFormat": "Total Physical",
-          "refId": "A",
-          "instant": false
+          "refId": "A"
         },
         {
           "expr": "sum(node_memory_Active_bytes{instance=~\"master2\",job=~\".*\"})",
           "format": "time_series",
           "hide": true,
+          "instant": false,
           "intervalFactor": 1,
           "legendFormat": "Active",
-          "refId": "F",
-          "instant": false
+          "refId": "F"
         },
         {
           "expr": "sum(node_memory_Cached_bytes{instance=~\"master2\",job=~\".*\"} + node_memory_Buffers_bytes{instance=~\"master2\",job=~\".*\"})",
           "format": "time_series",
           "hide": false,
+          "instant": false,
           "intervalFactor": 1,
           "legendFormat": "Cached + Buffers",
-          "refId": "B",
-          "instant": false
+          "refId": "B"
         },
         {
           "expr": "sum(node_memory_MemAvailable_bytes{instance=~\"master2\",job=~\".*\"} - (node_memory_Cached_bytes{instance=~\"master2\",job=~\".*\"} + node_memory_Buffers_bytes{instance=~\"master2\",job=~\".*\"}))",
@@ -1233,31 +1258,31 @@
           "refId": "D"
         },
         {
-          "refId": "C",
           "expr": "sum(node_memory_Dirty_bytes{instance=~\"master2\",job=~\".*\"})",
+          "intervalFactor": 1,
           "legendFormat": "Dirty",
-          "intervalFactor": 1
+          "refId": "C"
         },
         {
-          "refId": "E",
           "expr": "sum(node_memory_AnonPages_bytes{instance=~\"master2\",job=~\".*\"})",
-          "legendFormat": "Anon Pages"
+          "legendFormat": "Anon Pages",
+          "refId": "E"
         },
         {
-          "refId": "G",
           "expr": "sum(node_memory_Slab_bytes{instance=~\"master2\",job=~\".*\"})",
-          "legendFormat": "Kernel Slab"
+          "legendFormat": "Kernel Slab",
+          "refId": "G"
         },
         {
-          "refId": "H",
           "expr": "sum(node_memory_VmallocUsed_bytes{instance=~\"master2\",job=~\".*\"})",
-          "legendFormat": "VM Alloc Used"
+          "legendFormat": "VM Alloc Used",
+          "refId": "H"
         },
         {
-          "refId": "I",
           "expr": "sum(node_memory_MemFree_bytes{instance=~\"master2\",job=~\".*\"})",
+          "hide": true,
           "legendFormat": "Free",
-          "hide": true
+          "refId": "I"
         }
       ],
       "thresholds": [],
@@ -1301,23 +1326,24 @@
       "yaxis": {
         "align": false,
         "alignLevel": null
-      },
-      "hiddenSeries": false
+      }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "description": "",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 0,
         "y": 23
       },
+      "hiddenSeries": false,
       "id": 57,
       "legend": {
         "alignAsTable": true,
@@ -1336,7 +1362,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1406,18 +1434,20 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 8,
         "y": 23
       },
+      "hiddenSeries": false,
       "id": 58,
       "legend": {
         "alignAsTable": true,
@@ -1436,7 +1466,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1504,18 +1536,20 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
         "y": 23
       },
+      "hiddenSeries": false,
       "id": 85,
       "legend": {
         "alignAsTable": true,
@@ -1534,7 +1568,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1602,19 +1638,21 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "description": "",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 0,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 82,
       "legend": {
         "alignAsTable": true,
@@ -1633,7 +1671,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1703,19 +1743,21 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "description": "",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 8,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 83,
       "legend": {
         "alignAsTable": true,
@@ -1734,7 +1776,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1804,19 +1848,21 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "description": "",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
         "y": 30
       },
+      "hiddenSeries": false,
       "id": 84,
       "legend": {
         "alignAsTable": true,
@@ -1835,7 +1881,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -1905,18 +1953,299 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": null,
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 0,
         "y": 37
       },
+      "hiddenSeries": false,
+      "id": 108,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(node_disk_write_time_seconds_total{instance=\"master0\"}[2m])/rate(node_disk_writes_completed_total{instance=\"master0\"}[2m])*1000",
+          "legendFormat": "write-{{ device }}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_disk_read_time_seconds_total{instance=\"master0\"}[2m])/rate(node_disk_reads_completed_total{instance=\"master0\"}[2m])*1000",
+          "legendFormat": "read-{{ device }}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Disk IO Latency: master0",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 8,
+        "y": 37
+      },
+      "hiddenSeries": false,
+      "id": 109,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(node_disk_write_time_seconds_total{instance=\"master1\"}[2m])/rate(node_disk_writes_completed_total{instance=\"master1\"}[2m])*1000",
+          "legendFormat": "write-{{ device }}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_disk_read_time_seconds_total{instance=\"master1\"}[2m])/rate(node_disk_reads_completed_total{instance=\"master1\"}[2m])*1000",
+          "legendFormat": "read-{{ device }}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Disk IO Latency: master1",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": null,
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 16,
+        "y": 37
+      },
+      "hiddenSeries": false,
+      "id": 110,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "nullPointMode": "null",
+      "options": {
+        "dataLinks": []
+      },
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "rate(node_disk_write_time_seconds_total{instance=\"master2\"}[2m])/rate(node_disk_writes_completed_total{instance=\"master2\"}[2m])*1000",
+          "legendFormat": "write-{{ device }}",
+          "refId": "A"
+        },
+        {
+          "expr": "rate(node_disk_read_time_seconds_total{instance=\"master2\"}[2m])/rate(node_disk_reads_completed_total{instance=\"master2\"}[2m])*1000",
+          "legendFormat": "read-{{ device }}",
+          "refId": "B"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Disk IO Latency: master2",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "ms",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "fillGradient": 0,
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 44
+      },
+      "hiddenSeries": false,
       "id": 73,
       "legend": {
         "alignAsTable": true,
@@ -1934,7 +2263,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -2004,18 +2335,20 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 8,
-        "y": 37
+        "y": 44
       },
+      "hiddenSeries": false,
       "id": 86,
       "legend": {
         "alignAsTable": true,
@@ -2033,7 +2366,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -2103,18 +2438,20 @@
       }
     },
     {
-      "datasource": "$datasource",
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
+      "datasource": "$datasource",
       "fill": 1,
+      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
-        "y": 37
+        "y": 44
       },
+      "hiddenSeries": false,
       "id": 87,
       "legend": {
         "alignAsTable": true,
@@ -2132,7 +2469,9 @@
       "linewidth": 1,
       "links": [],
       "nullPointMode": "null",
-      "options": {},
+      "options": {
+        "dataLinks": []
+      },
       "percentage": false,
       "pointradius": 2,
       "points": false,
@@ -2200,559 +2539,10 @@
         "align": false,
         "alignLevel": null
       }
-    },
-    {
-      "datasource": "$datasource",
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 0,
-        "y": 44
-      },
-      "id": 63,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values":true 
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "container_memory_rss{instance=\"master0:10250\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{ job_name }} - {{ container_name }}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Process RSS : master0",
-      "tooltip": {
-        "shared": true,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "datasource": "$datasource",
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 8,
-        "y": 44
-      },
-      "id": 99,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values":true 
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "container_memory_rss{instance=\"master1:10250\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{ job_name }} - {{ container_name }}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Process RSS : master1",
-      "tooltip": {
-        "shared": true,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "datasource": "$datasource",
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 16,
-        "y": 44
-      },
-      "id": 100,
-      "legend": {
-        "alignAsTable": true,
-        "avg": true,
-        "current": true,
-        "max": false,
-        "min": false,
-        "rightSide": false,
-        "show": true,
-        "total": false,
-        "values":true 
-      },
-      "lines": true,
-      "linewidth": 2,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "container_memory_rss{instance=\"master2:10250\"}",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{ job_name }} - {{ container_name }}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "Process RSS : master2",
-      "tooltip": {
-        "shared": true,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "Bps",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": false
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "datasource": "$datasource",
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 0,
-        "y": 51
-      },
-      "id": 69,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": true,
-        "hideZero": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "irate(container_cpu_usage_seconds_total{instance=\"master0:10250\"}[5m])",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{ pod_name }} - {{ service }}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "CPU Usage : master0",
-      "tooltip": {
-        "shared": true,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "datasource": "$datasource",
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 8,
-        "y": 51
-      },
-      "id": 101,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": true,
-        "hideZero": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "irate(container_cpu_usage_seconds_total{instance=\"master1:10250\"}[5m])",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{ pod_name }} - {{ service }}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "CPU Usage : master1",
-      "tooltip": {
-        "shared": true,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
-    },
-    {
-      "datasource": "$datasource",
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
-      "fill": 1,
-      "fillGradient": 0,
-      "gridPos": {
-        "h": 7,
-        "w": 8,
-        "x": 16,
-        "y": 51
-      },
-      "id": 102,
-      "legend": {
-        "alignAsTable": true,
-        "avg": false,
-        "current": true,
-        "hideZero": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
-      "options": {
-        "dataLinks": []
-      },
-      "percentage": false,
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
-      "targets": [
-        {
-          "expr": "irate(container_cpu_usage_seconds_total{instance=\"master2:10250\"}[5m])",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "legendFormat": "{{ pod_name }} - {{ service }}",
-          "refId": "A"
-        }
-      ],
-      "thresholds": [],
-      "timeFrom": null,
-      "timeRegions": [],
-      "timeShift": null,
-      "title": "CPU Usage : master2",
-      "tooltip": {
-        "shared": true,
-        "sort": 2,
-        "value_type": "individual"
-      },
-      "transparent": true,
-      "type": "graph",
-      "xaxis": {
-        "buckets": null,
-        "mode": "time",
-        "name": null,
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        },
-        {
-          "format": "short",
-          "label": null,
-          "logBase": 1,
-          "max": null,
-          "min": null,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false,
-        "alignLevel": null
-      }
     }
   ],
-  "refresh": "10s",
-  "schemaVersion": 18,
+  "refresh": false,
+  "schemaVersion": 22,
   "style": "dark",
   "tags": [],
   "templating": {
@@ -2831,8 +2621,8 @@
     ]
   },
   "time": {
-    "from": "now-15m",
-    "to": "now"
+    "from": "2020-01-13T11:53:03.838Z",
+    "to": "2020-01-13T12:13:03.838Z"
   },
   "timepicker": {
     "refresh_intervals": [
