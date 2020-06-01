@@ -252,7 +252,7 @@ local podCount = grafana.graphPanel.new(
   title='Pod count',
 ).addTarget(
   prometheus.target(
-    'sum(kube_pod_status_phase{namespace=~"$namespace"}) by (phase)',
+    'sum(kube_pod_status_phase{}) by (phase)',
     legendFormat='{{phase}} pods',
   )
 );
@@ -262,7 +262,7 @@ local secretCount = grafana.graphPanel.new(
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
-    'count(kube_secret_info{namespace=~"$namespace"})',
+    'count(kube_secret_info{})',
     legendFormat='secrets',
   )
 );
@@ -272,7 +272,7 @@ local deployCount = grafana.graphPanel.new(
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
-    'count(kube_deployment_labels{namespace=~"$namespace"})',
+    'count(kube_deployment_labels{})',
     legendFormat='Deployments',
   )
 );
@@ -282,10 +282,21 @@ local cmCount = grafana.graphPanel.new(
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
-    'count(kube_configmap_info{namespace=~"$namespace"})',
+    'count(kube_configmap_info{})',
     legendFormat='Configmaps',
   )
 );
+
+local svcCount = grafana.graphPanel.new(
+  title='Service count',
+  datasource='$datasource',
+).addTarget(
+  prometheus.target(
+    'sum(kube_service_spec_type) by (type)',
+    legendFormat='{{type}}',
+  )
+);
+
 
 local reqCount = grafana.graphPanel.new(
   title='400/500 requests',
@@ -356,8 +367,9 @@ grafana.dashboard.new(
 )
 
 .addTemplate(
-  grafana.template.datasource(
+  grafana.template.new(
     '_master_node',
+    '$datasource',
     'label_values(kube_node_role{role="master"}, node)',
     '',
     refresh=2,
@@ -370,8 +382,9 @@ grafana.dashboard.new(
 )
 
 .addTemplate(
-  grafana.template.datasource(
+  grafana.template.new(
     '_worker_node',
+    '$datasource',
     'label_values(kube_node_role{role="worker"}, node)',
     '',
     refresh=2,
@@ -384,8 +397,9 @@ grafana.dashboard.new(
 )
 
 .addTemplate(
-  grafana.template.datasource(
+  grafana.template.new(
     '_infra_node',
+    '$datasource',
     'label_values(kube_node_role{role="infra"}, node)',
     '',
     refresh=2,
@@ -399,8 +413,9 @@ grafana.dashboard.new(
 
 
 .addTemplate(
-  grafana.template.datasource(
+  grafana.template.new(
     'namespace',
+    '$datasource',
     'label_values(kube_pod_info, namespace)',
     '',
     regex='/(openshift-.*|.*ripsaw.*|builder-.*|.*kube.*)/',
@@ -415,8 +430,9 @@ grafana.dashboard.new(
 
 
 .addTemplate(
-  grafana.template.datasource(
+  grafana.template.new(
     'block_device',
+    '$datasource',
     'label_values(node_disk_written_bytes_total,device)',
     '',
     regex='/^(?:(?!dm|rb).)*$/',
@@ -431,8 +447,9 @@ grafana.dashboard.new(
 
 
 .addTemplate(
-  grafana.template.datasource(
+  grafana.template.new(
     'net_device',
+    '$datasource',
     'label_values(node_network_receive_bytes_total,device)',
     '',
     regex='/^((br|en|et).*)$/',
@@ -471,8 +488,9 @@ grafana.dashboard.new(
     secretCount { gridPos: { x: 0, y: 8, w: 8, h: 8 } },
     deployCount { gridPos: { x: 8, y: 8, w: 8, h: 8 } },
     cmCount { gridPos: { x: 16, y: 8, w: 8, h: 8 } },
-    reqCount { gridPos: { x: 0, y: 16, w: 12, h: 8 } },
-    apiReqCount { gridPos: { x: 12, y: 16, w: 12, h: 8 } },
+    svcCount { gridPos: { x: 0, y: 16, w: 8, h: 8 } },
+    reqCount { gridPos: { x: 8, y: 16, w: 8, h: 8 } },
+    apiReqCount { gridPos: { x: 16, y: 16, w: 8, h: 8 } },
     top10ContMem { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
     top10ContCPU { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
   ]

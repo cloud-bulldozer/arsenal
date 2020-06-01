@@ -14,7 +14,7 @@ outputs = $(patsubst $(TEMPLATESDIR)/%.jsonnet, $(OUTPUTDIR)/%.json, $(TEMPLATES
 # Replace $(TEMPLATESDIR)/*.jsonnet by $(TMPDIR)/*.jsonnet
 fmtoutputs = $(patsubst $(TEMPLATESDIR)/%.jsonnet, $(TMPDIR)/%.jsonnet, $(TEMPLATES))
 
-all: deps format build
+all: deps build
 
 deps: $(ALLDIRS) $(TEMPLATESDIR)/grafonnet-lib $(BINDIR)/jsonnet
 
@@ -23,7 +23,7 @@ $(ALLDIRS):
 
 format: $(fmtoutputs)
 
-build: $(TEMPLATESDIR)/grafonnet-lib $(outputs)
+build: deps $(TEMPLATESDIR)/grafonnet-lib $(outputs)
 
 clean:
 	@echo "Cleaning up"
@@ -37,13 +37,13 @@ $(BINDIR)/jsonnet:
 	curl -s -L $(JSONNET) | tar xzf - -C $(BINDIR)
 
 # Format each template and output to $(TMPDIR)
-$(fmtoutputs): $(TEMPLATES)
+$(TMPDIR)/%.jsonnet: $(TEMPLATESDIR)/%.jsonnet
 	@echo "Formating template $<"
 	$(BINDIR)/jsonnetfmt $< > $@
 	mv $@ $<
 
 # Build each template and output to $(OUTPUTDIR)
-$(outputs): $(TEMPLATES)
+$(OUTPUTDIR)/%.json: $(TEMPLATESDIR)/%.jsonnet
 	@echo "Building template $<"
 	$(BINDIR)/jsonnet $< > $@
 

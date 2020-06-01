@@ -8,7 +8,7 @@ Jsonnet based dashboards is an effort to improve the manageability of grafana js
 ## How to
 
 Render a jsonnet file is as simple as executing `jsonnet <jsonnet_template>`. The jsonnet binary is not included in this repo, though binary builds can be found in its official [repository](https://github.com/google/jsonnet/releases).
-A makefile has been included to automate jsonnet formatting and rendering tasks. Executing `make` downloads the jsonnet binary, validates, reformat and saves the rendered the templates at the *rendered* directory.
+A makefile has been included to automate jsonnet formatting and rendering tasks. Executing `make` downloads the jsonnet binary and renders the templates at the *rendered* directory.
 
 i.e.
 
@@ -30,6 +30,7 @@ ocp-ingress-controller.json ocp-performance.json
 
 In order to clean up the environment execute `make clean`.
 
+In order to lint the templates using `jsonnetfmt`execute `make format`
 
 ```shell
 $ make clean
