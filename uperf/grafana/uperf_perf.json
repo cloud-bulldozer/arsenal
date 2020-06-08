@@ -1,441 +1,727 @@
 {
-	"annotations": {
-		"list": [
-			{
-				"builtIn": 1,
-				"datasource": "-- Grafana --",
-				"enable": true,
-				"hide": true,
-				"iconColor": "rgba(0, 211, 255, 1)",
-				"name": "Annotations & Alerts",
-				"type": "dashboard"
-			}
-		]
-	},
-	"editable": true,
-	"gnetId": null,
-	"graphTooltip": 0,
-	"id": 6,
-	"iteration": 1559938449209,
-	"links": [],
-	"panels": [
-		{
-			"aliasColors": {},
-			"bars": false,
-			"dashLength": 10,
-			"dashes": false,
-			"datasource": "bull-uperf",
-			"fill": 1,
-			"gridPos": {
-				"h": 9,
-				"w": 12,
-				"x": 0,
-				"y": 0
-			},
-			"id": 2,
-			"legend": {
-				"avg": false,
-				"current": false,
-				"max": false,
-				"min": false,
-				"show": true,
-				"total": false,
-				"values": false
-			},
-			"lines": true,
-			"linewidth": 1,
-			"links": [],
-			"nullPointMode": "null as zero",
-			"percentage": false,
-			"pointradius": 2,
-			"points": false,
-			"renderer": "flot",
-			"seriesOverrides": [],
-			"spaceLength": 10,
-			"stack": false,
-			"steppedLine": false,
-			"targets": [
-				{
-					"bucketAggs": [
-						{
-							"field": "uperf_ts",
-							"id": "2",
-							"settings": {
-								"interval": "1s",
-								"min_doc_count": 0,
-								"trimEdges": null
-							},
-							"type": "date_histogram"
-						}
-					],
-					"metrics": [
-						{
-							"field": "norm_byte",
-							"id": "1",
-							"meta": {},
-							"settings": {},
-							"type": "sum"
-						}
-					],
-					"query": "uuid: $uuid AND user: $user AND  iteration: $iteration AND remote_ip: $server AND message_size: $message_size AND test_type: $test_type AND protocol: $protocol",
-					"refId": "A",
-					"timeField": "uperf_ts"
-				}
-			],
-			"thresholds": [],
-			"timeFrom": null,
-			"timeRegions": [],
-			"timeShift": null,
-			"title": "UPerf Performance",
-			"tooltip": {
-				"shared": true,
-				"sort": 0,
-				"value_type": "individual"
-			},
-			"transparent": true,
-			"type": "graph",
-			"xaxis": {
-				"buckets": null,
-				"mode": "time",
-				"name": null,
-				"show": true,
-				"values": []
-			},
-			"yaxes": [
-				{
-					"format": "Bps",
-					"label": null,
-					"logBase": 1,
-					"max": null,
-					"min": null,
-					"show": true
-				},
-				{
-					"format": "pps",
-					"label": null,
-					"logBase": 1,
-					"max": null,
-					"min": null,
-					"show": false
-				}
-			],
-			"yaxis": {
-				"align": false,
-				"alignLevel": null
-			}
-		},
-		{
-			"columns": [],
-			"datasource": "bull-uperf",
-			"fontSize": "100%",
-			"gridPos": {
-				"h": 9,
-				"w": 12,
-				"x": 12,
-				"y": 0
-			},
-			"id": 4,
-			"links": [],
-			"pageSize": null,
-			"scroll": true,
-			"showHeader": true,
-			"sort": {
-				"col": 0,
-				"desc": true
-			},
-			"styles": [
-				{
-					"alias": "",
-					"colorMode": null,
-					"colors": [
-						"rgba(245, 54, 54, 0.9)",
-						"rgba(237, 129, 40, 0.89)",
-						"rgba(50, 172, 45, 0.97)"
-					],
-					"decimals": 2,
-					"pattern": "message_size",
-					"thresholds": [],
-					"type": "string",
-					"unit": "Bps"
-				},
-				{
-					"alias": "",
-					"colorMode": null,
-					"colors": [
-						"rgba(245, 54, 54, 0.9)",
-						"rgba(237, 129, 40, 0.89)",
-						"rgba(50, 172, 45, 0.97)"
-					],
-					"dateFormat": "YYYY-MM-DD HH:mm:ss",
-					"decimals": 2,
-					"mappingType": 1,
-					"pattern": ".* norm_byte",
-					"thresholds": [],
-					"type": "number",
-					"unit": "Bps"
-				}
-			],
-			"targets": [
-				{
-					"alias": "",
-					"bucketAggs": [
-						{
-							"field": "message_size",
-							"id": "2",
-							"settings": {
-								"min_doc_count": 1,
-								"order": "desc",
-								"orderBy": "_term",
-								"size": "10"
-							},
-							"type": "terms"
-						}
-					],
-					"metrics": [
-						{
-							"field": "norm_byte",
-							"id": "1",
-							"meta": {},
-							"settings": {
-								"percents": [
-									"95",
-									"99"
-								]
-							},
-							"type": "percentiles"
-						}
-					],
-					"query": "uuid: $uuid AND user: $user AND  iteration: $iteration AND remote_ip: $server AND message_size: $message_size AND test_type: $test_type AND protocol: $protocol",
-					"refId": "A",
-					"timeField": "uperf_ts"
-				}
-			],
-			"timeFrom": null,
-			"timeShift": null,
-			"title": "UPerf Result Summary",
-			"transform": "table",
-			"transparent": true,
-			"type": "table"
-		}
-	],
-	"refresh": false,
-	"schemaVersion": 18,
-	"style": "dark",
-	"tags": [
-		"network ",
-		"performance"
-	],
-	"templating": {
-		"list": [
-			{
-				"allValue": null,
-				"current": {
-					"text": "All",
-					"value": "$__all"
-				},
-				"datasource": "bull-uperf",
-				"definition": "{\"find\": \"terms\", \"field\": \"uuid.keyword\"}",
-				"hide": 0,
-				"includeAll": true,
-				"label": null,
-				"multi": false,
-				"name": "uuid",
-				"options": [],
-				"query": "{\"find\": \"terms\", \"field\": \"uuid.keyword\"}",
-				"refresh": 2,
-				"regex": "",
-				"skipUrlSync": false,
-				"sort": 0,
-				"tagValuesQuery": "",
-				"tags": [],
-				"tagsQuery": "",
-				"type": "query",
-				"useTags": false
-			},
-			{
-				"allValue": null,
-				"current": {
-					"tags": [],
-					"text": "All",
-					"value": "$__all"
-				},
-				"datasource": "bull-uperf",
-				"definition": "{\"find\": \"terms\", \"field\": \"user.keyword\"}",
-				"hide": 0,
-				"includeAll": true,
-				"label": null,
-				"multi": false,
-				"name": "user",
-				"options": [],
-				"query": "{\"find\": \"terms\", \"field\": \"user.keyword\"}",
-				"refresh": 2,
-				"regex": "",
-				"skipUrlSync": false,
-				"sort": 0,
-				"tagValuesQuery": "",
-				"tags": [],
-				"tagsQuery": "",
-				"type": "query",
-				"useTags": false
-			},
-			{
-				"allValue": null,
-				"current": {
-					"text": "All",
-					"value": "$__all"
-				},
-				"datasource": "bull-uperf",
-				"definition": "{\"find\": \"terms\", \"field\": \"iteration\"}",
-				"hide": 0,
-				"includeAll": true,
-				"label": null,
-				"multi": false,
-				"name": "iteration",
-				"options": [],
-				"query": "{\"find\": \"terms\", \"field\": \"iteration\"}",
-				"refresh": 2,
-				"regex": "",
-				"skipUrlSync": false,
-				"sort": 0,
-				"tagValuesQuery": "",
-				"tags": [],
-				"tagsQuery": "",
-				"type": "query",
-				"useTags": false
-			},
-			{
-				"allValue": null,
-				"current": {
-					"text": "All",
-					"value": "$__all"
-				},
-				"datasource": "bull-uperf",
-				"definition": "{\"find\": \"terms\", \"field\": \"remote_ip.keyword\"}",
-				"hide": 0,
-				"includeAll": true,
-				"label": null,
-				"multi": false,
-				"name": "server",
-				"options": [],
-				"query": "{\"find\": \"terms\", \"field\": \"remote_ip.keyword\"}",
-				"refresh": 2,
-				"regex": "",
-				"skipUrlSync": false,
-				"sort": 0,
-				"tagValuesQuery": "",
-				"tags": [],
-				"tagsQuery": "",
-				"type": "query",
-				"useTags": false
-			},
-			{
-				"allValue": null,
-				"current": {
-					"text": "stream",
-					"value": "stream"
-				},
-				"datasource": "bull-uperf",
-				"definition": "{\"find\": \"terms\", \"field\": \"test_type.keyword\"}",
-				"hide": 0,
-				"includeAll": true,
-				"label": null,
-				"multi": false,
-				"name": "test_type",
-				"options": [],
-				"query": "{\"find\": \"terms\", \"field\": \"test_type.keyword\"}",
-				"refresh": 2,
-				"regex": "",
-				"skipUrlSync": false,
-				"sort": 0,
-				"tagValuesQuery": "",
-				"tags": [],
-				"tagsQuery": "",
-				"type": "query",
-				"useTags": false
-			},
-			{
-				"allValue": null,
-				"current": {
-					"text": "All",
-					"value": "$__all"
-				},
-				"datasource": "bull-uperf",
-				"definition": "{\"find\": \"terms\", \"field\": \"protocol.keyword\"}",
-				"hide": 0,
-				"includeAll": true,
-				"label": null,
-				"multi": false,
-				"name": "protocol",
-				"options": [],
-				"query": "{\"find\": \"terms\", \"field\": \"protocol.keyword\"}",
-				"refresh": 2,
-				"regex": "",
-				"skipUrlSync": false,
-				"sort": 0,
-				"tagValuesQuery": "",
-				"tags": [],
-				"tagsQuery": "",
-				"type": "query",
-				"useTags": false
-			},
-			{
-				"allValue": null,
-				"current": {
-					"text": "All",
-					"value": "$__all"
-				},
-				"datasource": "bull-uperf",
-				"definition": "{\"find\": \"terms\", \"field\": \"message_size\"}",
-				"hide": 0,
-				"includeAll": true,
-				"label": null,
-				"multi": false,
-				"name": "message_size",
-				"options": [],
-				"query": "{\"find\": \"terms\", \"field\": \"message_size\"}",
-				"refresh": 2,
-				"regex": "",
-				"skipUrlSync": false,
-				"sort": 0,
-				"tagValuesQuery": "",
-				"tags": [],
-				"tagsQuery": "",
-				"type": "query",
-				"useTags": false
-			}
-		]
-	},
-	"time": {
-		"from": "2019-06-11T14:38:59.880Z",
-		"to": "2019-06-11T14:40:59.256Z"
-	},
-	"timepicker": {
-		"refresh_intervals": [
-			"5s",
-			"10s",
-			"30s",
-			"1m",
-			"5m",
-			"15m",
-			"30m",
-			"1h",
-			"2h",
-			"1d"
-		],
-		"time_options": [
-			"5m",
-			"15m",
-			"1h",
-			"6h",
-			"12h",
-			"24h",
-			"2d",
-			"7d",
-			"30d"
-		]
-	},
-	"timezone": "",
-	"title": "UPerf - Network Performance Dashboard",
-	"uid": "ngpE3QGWz",
-	"version": 24
+  "__inputs": [],
+  "__requires": [
+    {
+      "type": "datasource",
+      "id": "elasticsearch",
+      "name": "Elasticsearch",
+      "version": "1.0.0"
+    },
+    {
+      "type": "grafana",
+      "id": "grafana",
+      "name": "Grafana",
+      "version": "6.3.0-pre"
+    },
+    {
+      "type": "panel",
+      "id": "graph",
+      "name": "Graph",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    }
+  ],
+  "annotations": {
+    "list": [
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
+    ]
+  },
+  "editable": true,
+  "gnetId": null,
+  "graphTooltip": 0,
+  "id": null,
+  "iteration": 1591698491054,
+  "links": [],
+  "panels": [
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 2,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 2,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "hideEmpty": false,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "bucketAggs": [
+            {
+              "field": "uperf_ts",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": 0
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "field": "norm_byte",
+              "id": "1",
+              "inlineScript": "_value * 8",
+              "meta": {},
+              "settings": {
+                "script": {
+                  "inline": "_value * 8"
+                }
+              },
+              "type": "sum"
+            }
+          ],
+          "query": "uuid: $uuid AND cluster_name: $cluster_name AND user: $user AND  iteration: $iteration AND remote_ip: $server AND message_size: $message_size AND test_type: $test_type AND protocol: $protocol AND num_threads: $threads",
+          "refId": "A",
+          "timeField": "uperf_ts"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "UPerf Performance : Throughput per-second",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "bps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "$datasource",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 5,
+      "legend": {
+        "alignAsTable": true,
+        "avg": true,
+        "current": false,
+        "max": true,
+        "min": false,
+        "rightSide": false,
+        "show": true,
+        "total": false,
+        "values": true
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null as zero",
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "field": "uperf_ts",
+              "id": "2",
+              "settings": {
+                "interval": "auto",
+                "min_doc_count": 0,
+                "trimEdges": null
+              },
+              "type": "date_histogram"
+            }
+          ],
+          "metrics": [
+            {
+              "field": "norm_ops",
+              "id": "1",
+              "meta": {},
+              "settings": {},
+              "type": "sum"
+            }
+          ],
+          "query": "uuid: $uuid AND user: $user AND  iteration: $iteration AND remote_ip: $server AND message_size: $message_size AND test_type: $test_type AND protocol: $protocol AND num_threads: $threads",
+          "refId": "A",
+          "timeField": "uperf_ts"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "UPerf Performance : Operations per-second",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "transparent": true,
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "pps",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": false
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "columns": [],
+      "datasource": "$datasource",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
+      "id": 4,
+      "links": [],
+      "pageSize": null,
+      "scroll": true,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": true
+      },
+      "styles": [
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "message_size",
+          "thresholds": [],
+          "type": "string",
+          "unit": "Bps"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Average norm_byte",
+          "thresholds": [],
+          "type": "number",
+          "unit": "bps"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "Average norm_ops",
+          "thresholds": [],
+          "type": "number",
+          "unit": "none"
+        },
+        {
+          "alias": "",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Average norm_ltcy",
+          "thresholds": [],
+          "type": "number",
+          "unit": "µs"
+        },
+        {
+          "alias": "Sample count",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 2,
+          "mappingType": 1,
+          "pattern": "Count",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "alias": "",
+          "bucketAggs": [
+            {
+              "fake": true,
+              "field": "test_type.keyword",
+              "id": "3",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "fake": true,
+              "field": "protocol.keyword",
+              "id": "4",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "fake": true,
+              "field": "num_threads",
+              "id": "5",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            },
+            {
+              "field": "message_size",
+              "id": "2",
+              "settings": {
+                "min_doc_count": 1,
+                "order": "desc",
+                "orderBy": "_term",
+                "size": "10"
+              },
+              "type": "terms"
+            }
+          ],
+          "metrics": [
+            {
+              "field": "norm_byte",
+              "id": "1",
+              "inlineScript": "_value * 8",
+              "meta": {},
+              "settings": {
+                "script": {
+                  "inline": "_value * 8"
+                }
+              },
+              "type": "avg"
+            },
+            {
+              "field": "norm_ops",
+              "id": "6",
+              "meta": {},
+              "settings": {},
+              "type": "avg"
+            },
+            {
+              "field": "norm_ltcy",
+              "id": "7",
+              "meta": {},
+              "settings": {},
+              "type": "avg"
+            },
+            {
+              "field": "select field",
+              "id": "8",
+              "type": "count"
+            }
+          ],
+          "query": "uuid: $uuid AND user: $user AND  iteration: $iteration AND remote_ip: $server AND message_size: $message_size AND test_type: $test_type AND protocol: $protocol AND NOT norm_ops:0",
+          "refId": "A",
+          "timeField": "uperf_ts"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "UPerf Result Summary",
+      "transform": "table",
+      "transparent": true,
+      "type": "table"
+    }
+  ],
+  "refresh": false,
+  "schemaVersion": 18,
+  "style": "dark",
+  "tags": [
+    "network ",
+    "performance"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "tags": [],
+          "text": "Prod ES - ripsaw-uperf-results",
+          "value": "Prod ES - ripsaw-uperf-results"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": null,
+        "multi": false,
+        "name": "datasource",
+        "options": [],
+        "query": "elasticsearch",
+        "refresh": 1,
+        "regex": "/.*([Uu][Pp]erf).*/",
+        "skipUrlSync": false,
+        "type": "datasource"
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "{\"find\": \"terms\", \"field\": \"uuid.keyword\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "uuid",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"uuid.keyword\"}",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "{\"find\": \"terms\", \"field\": \"cluster_name.keyword\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "cluster_name",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"cluster_name.keyword\"}",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "{\"find\": \"terms\", \"field\": \"user.keyword\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "user",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"user.keyword\"}",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "{\"find\": \"terms\", \"field\": \"iteration\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "iteration",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"iteration\"}",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "{\"find\": \"terms\", \"field\": \"remote_ip.keyword\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "server",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"remote_ip.keyword\"}",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "{\"find\": \"terms\", \"field\": \"test_type.keyword\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "test_type",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"test_type.keyword\"}",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "{\"find\": \"terms\", \"field\": \"protocol.keyword\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "protocol",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"protocol.keyword\"}",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "{\"find\": \"terms\", \"field\": \"message_size\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "message_size",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"message_size\"}",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      },
+      {
+        "allValue": null,
+        "current": {},
+        "datasource": "$datasource",
+        "definition": "{\"find\": \"terms\", \"field\": \"num_threads\"}",
+        "hide": 0,
+        "includeAll": true,
+        "label": null,
+        "multi": false,
+        "name": "threads",
+        "options": [],
+        "query": "{\"find\": \"terms\", \"field\": \"num_threads\"}",
+        "refresh": 2,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
+  },
+  "time": {
+    "from": "2020-06-08T09:36:04.793Z",
+    "to": "2020-06-08T17:31:32.817Z"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ],
+    "time_options": [
+      "5m",
+      "15m",
+      "1h",
+      "6h",
+      "12h",
+      "24h",
+      "2d",
+      "7d",
+      "30d"
+    ]
+  },
+  "timezone": "",
+  "title": "Public - UPerf Results",
+  "uid": "iweQlQtZk",
+  "version": 48
 }
