@@ -2,7 +2,6 @@
   "annotations": {
     "list": [
       {
-        "$$hashKey": "object:293",
         "builtIn": 1,
         "datasource": "-- Grafana --",
         "enable": true,
@@ -17,8 +16,7 @@
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": null,
-  "iteration": 1589574200236,
+  "iteration": 1591814149666,
   "links": [],
   "panels": [
     {
@@ -1522,7 +1520,6 @@
           },
           "yaxes": [
             {
-              "$$hashKey": "object:415",
               "format": "Bps",
               "label": null,
               "logBase": 1,
@@ -1531,7 +1528,6 @@
               "show": true
             },
             {
-              "$$hashKey": "object:416",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -1616,7 +1612,6 @@
           },
           "yaxes": [
             {
-              "$$hashKey": "object:127",
               "format": "percent",
               "label": null,
               "logBase": 1,
@@ -1625,7 +1620,6 @@
               "show": true
             },
             {
-              "$$hashKey": "object:128",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -1711,7 +1705,6 @@
           },
           "yaxes": [
             {
-              "$$hashKey": "object:553",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -1720,7 +1713,6 @@
               "show": true
             },
             {
-              "$$hashKey": "object:554",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -1806,7 +1798,6 @@
           },
           "yaxes": [
             {
-              "$$hashKey": "object:706",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -1815,7 +1806,6 @@
               "show": true
             },
             {
-              "$$hashKey": "object:707",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -1908,7 +1898,6 @@
           },
           "yaxes": [
             {
-              "$$hashKey": "object:791",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -1917,7 +1906,6 @@
               "show": true
             },
             {
-              "$$hashKey": "object:792",
               "format": "short",
               "label": null,
               "logBase": 1,
@@ -2173,10 +2161,9 @@
           "renderer": "flot",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -2279,10 +2266,9 @@
           "renderer": "flot",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -2385,10 +2371,9 @@
           "renderer": "flot",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -2491,10 +2476,9 @@
           "renderer": "flot",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -2597,10 +2581,9 @@
           "renderer": "flot",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [],
@@ -2741,10 +2724,9 @@
           "repeatDirection": "v",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -2907,10 +2889,9 @@
           "repeatDirection": "v",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -3045,10 +3026,9 @@
           "repeatDirection": "v",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -3167,10 +3147,9 @@
           "repeatDirection": "v",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -3288,10 +3267,9 @@
           "repeatDirection": "v",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [],
@@ -3400,10 +3378,9 @@
           "repeatDirection": "v",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [],
@@ -3513,10 +3490,9 @@
           "repeatDirection": "v",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [],
@@ -3616,10 +3592,9 @@
           "repeatDirection": "v",
           "scopedVars": {
             "_node": {
-              "$$hashKey": "object:918",
               "selected": true,
-              "text": "master-0",
-              "value": "master-0"
+              "text": "ip-10-0-134-31.us-west-2.compute.internal",
+              "value": "ip-10-0-134-31.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [],
@@ -3681,10 +3656,9 @@
       "repeat": "_node",
       "scopedVars": {
         "_node": {
-          "$$hashKey": "object:918",
           "selected": true,
-          "text": "master-0",
-          "value": "master-0"
+          "text": "ip-10-0-134-31.us-west-2.compute.internal",
+          "value": "ip-10-0-134-31.us-west-2.compute.internal"
         }
       },
       "title": "Master : $_node",
@@ -4689,8 +4663,8 @@
           "scopedVars": {
             "_worker_node": {
               "selected": true,
-              "text": "worker-002",
-              "value": "worker-002"
+              "text": "ip-10-0-129-152.us-west-2.compute.internal",
+              "value": "ip-10-0-129-152.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [],
@@ -4808,8 +4782,8 @@
           "scopedVars": {
             "_worker_node": {
               "selected": true,
-              "text": "worker-002",
-              "value": "worker-002"
+              "text": "ip-10-0-129-152.us-west-2.compute.internal",
+              "value": "ip-10-0-129-152.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -4973,8 +4947,8 @@
           "scopedVars": {
             "_worker_node": {
               "selected": true,
-              "text": "worker-002",
-              "value": "worker-002"
+              "text": "ip-10-0-129-152.us-west-2.compute.internal",
+              "value": "ip-10-0-129-152.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -5109,8 +5083,8 @@
           "scopedVars": {
             "_worker_node": {
               "selected": true,
-              "text": "worker-002",
-              "value": "worker-002"
+              "text": "ip-10-0-129-152.us-west-2.compute.internal",
+              "value": "ip-10-0-129-152.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -5230,8 +5204,8 @@
           "scopedVars": {
             "_worker_node": {
               "selected": true,
-              "text": "worker-002",
-              "value": "worker-002"
+              "text": "ip-10-0-129-152.us-west-2.compute.internal",
+              "value": "ip-10-0-129-152.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [
@@ -5316,7 +5290,7 @@
           "fillGradient": 0,
           "gridPos": {
             "h": 8,
-            "w": 12,
+            "w": 8,
             "x": 0,
             "y": 34
           },
@@ -5349,8 +5323,8 @@
           "scopedVars": {
             "_worker_node": {
               "selected": true,
-              "text": "worker-002",
-              "value": "worker-002"
+              "text": "ip-10-0-129-152.us-west-2.compute.internal",
+              "value": "ip-10-0-129-152.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [],
@@ -5423,12 +5397,124 @@
           "dashLength": 10,
           "dashes": false,
           "datasource": "$datasource",
+          "fill": 0,
+          "fillGradient": 0,
+          "gridPos": {
+            "h": 8,
+            "w": 7,
+            "x": 8,
+            "y": 34
+          },
+          "hiddenSeries": false,
+          "id": 228,
+          "legend": {
+            "alignAsTable": true,
+            "avg": true,
+            "current": true,
+            "hideEmpty": true,
+            "hideZero": true,
+            "max": true,
+            "min": true,
+            "show": true,
+            "sort": "current",
+            "sortDesc": true,
+            "total": false,
+            "values": true
+          },
+          "lines": true,
+          "linewidth": 1,
+          "links": [],
+          "nullPointMode": "null",
+          "options": {
+            "dataLinks": []
+          },
+          "percentage": false,
+          "pointradius": 2,
+          "points": false,
+          "renderer": "flot",
+          "repeatDirection": "v",
+          "seriesOverrides": [
+            {
+              "alias": "conntrack_entries"
+            }
+          ],
+          "spaceLength": 10,
+          "stack": false,
+          "steppedLine": false,
+          "targets": [
+            {
+              "expr": "node_nf_conntrack_entries{instance=\"$_worker_node\"}",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "conntrack_entries ",
+              "refId": "A"
+            },
+            {
+              "expr": "node_nf_conntrack_entries_limit{instance=\"$_worker_node\"}",
+              "format": "time_series",
+              "hide": false,
+              "interval": "",
+              "intervalFactor": 1,
+              "legendFormat": "conntrack_limit",
+              "refId": "B"
+            }
+          ],
+          "thresholds": [],
+          "timeFrom": null,
+          "timeRegions": [],
+          "timeShift": null,
+          "title": "Network Connections : $_worker_node",
+          "tooltip": {
+            "shared": true,
+            "sort": 0,
+            "value_type": "individual"
+          },
+          "transparent": true,
+          "type": "graph",
+          "xaxis": {
+            "buckets": null,
+            "mode": "time",
+            "name": null,
+            "show": true,
+            "values": []
+          },
+          "yaxes": [
+            {
+              "format": "none",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": true
+            },
+            {
+              "format": "short",
+              "label": null,
+              "logBase": 1,
+              "max": null,
+              "min": null,
+              "show": false
+            }
+          ],
+          "yaxis": {
+            "align": false,
+            "alignLevel": null
+          }
+        },
+        {
+          "aliasColors": {},
+          "bars": false,
+          "dashLength": 10,
+          "dashes": false,
+          "datasource": "$datasource",
           "fill": 1,
           "fillGradient": 0,
           "gridPos": {
             "h": 8,
-            "w": 12,
-            "x": 12,
+            "w": 9,
+            "x": 15,
             "y": 34
           },
           "hiddenSeries": false,
@@ -5460,8 +5546,8 @@
           "scopedVars": {
             "_worker_node": {
               "selected": true,
-              "text": "worker-002",
-              "value": "worker-002"
+              "text": "ip-10-0-129-152.us-west-2.compute.internal",
+              "value": "ip-10-0-129-152.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [],
@@ -5571,8 +5657,8 @@
           "scopedVars": {
             "_worker_node": {
               "selected": true,
-              "text": "worker-002",
-              "value": "worker-002"
+              "text": "ip-10-0-129-152.us-west-2.compute.internal",
+              "value": "ip-10-0-129-152.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [],
@@ -5673,8 +5759,8 @@
           "scopedVars": {
             "_worker_node": {
               "selected": true,
-              "text": "worker-002",
-              "value": "worker-002"
+              "text": "ip-10-0-129-152.us-west-2.compute.internal",
+              "value": "ip-10-0-129-152.us-west-2.compute.internal"
             }
           },
           "seriesOverrides": [],
@@ -5737,15 +5823,15 @@
       "scopedVars": {
         "_worker_node": {
           "selected": true,
-          "text": "worker-002",
-          "value": "worker-002"
+          "text": "ip-10-0-129-152.us-west-2.compute.internal",
+          "value": "ip-10-0-129-152.us-west-2.compute.internal"
         }
       },
       "title": "Worker : $_worker_node",
       "type": "row"
     }
   ],
-  "refresh": "10s",
+  "refresh": false,
   "schemaVersion": 22,
   "style": "dark",
   "tags": [],
@@ -5753,7 +5839,7 @@
     "list": [
       {
         "current": {
-          "selected": true,
+          "selected": false,
           "text": "default",
           "value": "default"
         },
@@ -5772,10 +5858,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "master-0",
-          "value": [
-            "master-0"
-          ]
+          "text": "ip-10-0-134-31.us-west-2.compute.internal",
+          "value": "ip-10-0-134-31.us-west-2.compute.internal"
         },
         "datasource": "$datasource",
         "definition": "label_values(kube_node_role{role=\"master\"}, node)",
@@ -5800,8 +5884,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "worker-002",
-          "value": "worker-002"
+          "text": "ip-10-0-129-152.us-west-2.compute.internal",
+          "value": "ip-10-0-129-152.us-west-2.compute.internal"
         },
         "datasource": "$datasource",
         "definition": "label_values(kube_node_role{role=\"worker\"}, node)",
@@ -5826,8 +5910,8 @@
       {
         "allValue": null,
         "current": {
-          "text": "infra1",
-          "value": "infra1"
+          "text": "ip-10-0-137-131.us-west-2.compute.internal",
+          "value": "ip-10-0-137-131.us-west-2.compute.internal"
         },
         "datasource": "$datasource",
         "definition": "label_values(kube_node_role{role=\"infra\"}, node)",
@@ -5852,6 +5936,7 @@
       {
         "allValue": ".*",
         "current": {
+          "selected": false,
           "text": "All",
           "value": "$__all"
         },
@@ -5992,9 +6077,8 @@
   },
   "timezone": "",
   "title": "OpenShift Cluster Performance Dashboard",
-  "uid": "",
   "variables": {
     "list": []
   },
-  "version": 6
+  "version": 4
 }
