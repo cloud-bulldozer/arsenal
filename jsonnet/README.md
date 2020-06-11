@@ -44,4 +44,4 @@ The following templates are available:
 - OpenShift Performance Dashboard
 - UPerf Results Dashboard
 - Pgbench Dashboard
-
+- YCSB Dashboard
