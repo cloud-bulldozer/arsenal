@@ -285,6 +285,7 @@ grafana.dashboard.new(
     'datasource1',
     'elasticsearch',
     'Prod ES - ripsaw-ycsb-results',
+		label='ycsb-results datasource'
   )
 )
 
@@ -293,6 +294,7 @@ grafana.dashboard.new(
     'datasource2',
     'elasticsearch',
     'Prod ES - ripsaw-ycsb-summary',
+		label='ycsb-summary datasource'
   )
 )
 

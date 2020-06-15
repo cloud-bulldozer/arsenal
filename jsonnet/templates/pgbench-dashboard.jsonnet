@@ -163,7 +163,7 @@ local results = grafana.tablePanel.new(
 	styles= [
     {
       pattern: 'Average latency_ms',
-			alias: "Avg latency_ms",
+			alias: "Avg latency",
 			align: 'auto',
       type: 'number',
 			decimals: '2',
@@ -226,6 +226,7 @@ grafana.dashboard.new(
     'datasource1',
     'elasticsearch',
     'bull-pgbench',
+    label='pgbench-results datasource'
   )
 )
 
@@ -234,6 +235,7 @@ grafana.dashboard.new(
     'datasource2',
     'elasticsearch',
     'bull-pgbench-summary',
+    label = 'pgbench-summary datasource'
   )
 )
 

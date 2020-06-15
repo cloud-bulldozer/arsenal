@@ -132,6 +132,40 @@ local networkDrop(nodeName) =
     )
   );
 
+local networkConnections(nodeName) =
+  grafana.graphPanel.new(
+    title='Network Connections: ' + nodeName,
+    datasource='$datasource',
+    legend_min=true,
+    legend_max=true,
+    legend_avg=true,
+    legend_current=true,
+    legend_alignAsTable=true,
+    legend_values=true,
+    legend_hideEmpty=true,
+    legend_hideZero=true,
+    transparent= true,
+  )
+  {
+    fill: 0,
+    seriesOverrides: [{
+      alias: 'conntrack_entries'
+    }],
+    yaxes: [{show: true}, {show: false}],
+  }
+  .addTarget(
+    prometheus.target(
+      'node_nf_conntrack_entries{instance="' + nodeName + '"}',
+      legendFormat='conntrack_entries',
+    )
+  ).addTarget(
+    prometheus.target(
+      'node_nf_conntrack_entries_limit{instance="' + nodeName + '"}',
+      legendFormat='conntrack_limit',
+    )
+  );
+
+
 local containerCPU(nodeName) =
   grafana.graphPanel.new(
     title='Top 10 Container CPU usage: ' + nodeName,
@@ -523,6 +557,7 @@ grafana.dashboard.new(
     networkDrop('$_worker_node') { gridPos: { x: 16, y: 16, w: 8, h: 8 } },
     containerMemory('$_worker_node') { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
     containerCPU('$_worker_node') { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
+    networkConnections('$_worker_node') { gridPos: { x: 0, y: 32, w: 12, h: 8 } },
   ],
 ), { gridPos: { x: 0, y: 1, w: 0, h: 8 } })
 
