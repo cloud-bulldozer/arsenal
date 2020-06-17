@@ -5,7 +5,7 @@ local es = grafana.elasticsearch;
 local rps = grafana.graphPanel.new(
   title='RPS (rate of sent requests per second)',
   datasource='$datasource',
-  format='bps',
+  format='reqps',
   legend_max=true,
   legend_avg=true,
   legend_alignAsTable=true,
@@ -14,7 +14,7 @@ local rps = grafana.graphPanel.new(
 )
   {
     yaxes: [{
-      format: 'bps',
+      format: 'reqps',
       show: 'true'
     },
     {
@@ -25,7 +25,7 @@ local rps = grafana.graphPanel.new(
   }
 .addTarget(
   es.target(
-    query='uuid: $uuid AND cluster_name: $cluster_name AND user: $user AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
+    query='uuid: $uuid AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
     timeField='timestamp',
     metrics=[{
       field: 'rps',
@@ -33,7 +33,7 @@ local rps = grafana.graphPanel.new(
       meta: {},
       settings: {},
       transparent: true,
-      type: 'sum',
+      type: 'avg',
     }],
     bucketAggs=[{
       field: 'timestamp',
@@ -52,7 +52,7 @@ local rps = grafana.graphPanel.new(
 local throughput = grafana.graphPanel.new(
   title='Throughput (rate of successful requests per second)',
   datasource='$datasource',
-  format='bps',
+  format='reqps',
   legend_max=true,
   legend_avg=true,
   legend_alignAsTable=true,
@@ -61,7 +61,7 @@ local throughput = grafana.graphPanel.new(
 )
   {
     yaxes: [{
-      format: 'bps',
+      format: 'reqps',
       show: 'true'
     },
     {
@@ -72,7 +72,7 @@ local throughput = grafana.graphPanel.new(
   }
 .addTarget(
   es.target(
-    query='uuid: $uuid AND cluster_name: $cluster_name AND user: $user AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
+    query='uuid: $uuid AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
     timeField='timestamp',
     metrics=[{
       field: 'throughput',
@@ -80,7 +80,77 @@ local throughput = grafana.graphPanel.new(
       meta: {},
       settings: {},
       transparent: true,
-      type: 'sum',
+      type: 'avg',
+    }],
+    bucketAggs=[{
+      field: 'timestamp',
+      id: '2',
+      settings: {
+        interval: 'auto',
+        min_doc_count: 0,
+        trimEdges: null,
+      },
+      type: 'date_histogram',
+    }],
+  )
+);
+
+local latency = grafana.graphPanel.new(
+  title='Request Latency (observed over given interval)',
+  datasource='$datasource',
+  format='ms',
+  legend_max=true,
+  legend_avg=true,
+  legend_alignAsTable=true,
+  legend_values=true,
+  transparent= true,
+)
+  {
+    yaxes: [{
+      format: 'ms',
+      show: 'true'
+    },
+    {
+      format: 'pps',
+      show: 'false'
+    }],
+    fill: 2
+  }
+.addTarget(
+  es.target(
+    query='uuid: $uuid AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
+    timeField='timestamp',
+    metrics=[{
+      field: 'req_latency',
+      id: '1',
+      meta: {},
+      settings: {},
+      transparent: true,
+      type: 'avg',
+    }],
+    bucketAggs=[{
+      field: 'timestamp',
+      id: '2',
+      settings: {
+        interval: 'auto',
+        min_doc_count: 0,
+        trimEdges: null,
+      },
+      type: 'date_histogram',
+    }],
+  )
+)
+.addTarget(
+  es.target(
+    query='uuid: $uuid AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
+    timeField='timestamp',
+    metrics=[{
+      field: 'p99_latency',
+      id: '1',
+      meta: {},
+      settings: {},
+      transparent: true,
+      type: 'avg',
     }],
     bucketAggs=[{
       field: 'timestamp',
@@ -100,13 +170,25 @@ local results = grafana.tablePanel.new(
   datasource='$datasource',
   transparent= true,
   styles= [
+     {
+      decimals: '2',
+      pattern: 'Average rps',
+      type: 'number',
+      unit: 'reqps'
+    },
+     {
+      decimals: '2',
+      pattern: 'Average throughput',
+      type: 'number',
+      unit: 'reqps'
+    },
     {
       decimals: '2',
       pattern: 'Average p99_latency',
       type: 'number',
       unit: 'µs'
     },
-     {
+    {
       decimals: '2',
       pattern: 'Average req_latency',
       type: 'number',
@@ -128,11 +210,12 @@ local results = grafana.tablePanel.new(
 )
 .addTarget(
   es.target(
-    query='uuid: $uuid AND cluster_name: $cluster_name AND user: $user AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
+    query='uuid: $uuid AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
     timeField='timestamp',
     bucketAggs=[
             {
-              field: 'user.keyword',
+              fake: true,
+              field: 'targets.keyword',
               id: '1',
               settings: {
                 min_doc_count: 1,
@@ -143,7 +226,7 @@ local results = grafana.tablePanel.new(
               type: 'terms'
             },
             {
-              field: 'workers',
+              field: 'uuid.keyword',
               id: '2',
               settings: {
                 min_doc_count: 1,
@@ -152,31 +235,19 @@ local results = grafana.tablePanel.new(
                 size: '10',
               },
               type: 'terms'
-            },
-            {
-              field: 'requests',
-              id: '3',
-              settings: {
-                min_doc_count: 1,
-                order: 'desc',
-                orderBy: '_term',
-                size: '10',
-              },
-              type: 'terms'
-            },
-            {
-              field: 'status_codes.200',
-              id: '4',
-              settings: {
-                min_doc_count: 1,
-                order: 'desc',
-                orderBy: '_term',
-                size: '10',
-              },
-              type: 'terms'
-            },
+            }
           ],
           metrics=[
+            {
+              field: 'rps',
+              id: '3',
+              type: 'avg'
+            },
+            {
+              field: 'throughput',
+              id: '4',
+              type: 'avg'
+            },
             {
               field: 'p99_latency',
               id: '5',
@@ -310,4 +381,5 @@ grafana.dashboard.new(
 
 .addPanel(rps, gridPos={ x: 0, y: 0, w: 12, h: 9 })
 .addPanel(throughput, gridPos={ x: 12, y: 0, w: 12, h: 9 })
-.addPanel(results, gridPos={ x: 0, y: 12, w: 24, h: 9 })
+.addPanel(latency, gridPos={ x: 0, y: 12, w: 12, h: 9 })
+.addPanel(results, gridPos={ x: 0, y: 24, w: 24, h: 9 })

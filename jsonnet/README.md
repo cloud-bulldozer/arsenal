@@ -45,3 +45,4 @@ The following templates are available:
 - UPerf Results Dashboard
 - Pgbench Dashboard
 - YCSB Dashboard
+- Vegeta Dashboard
