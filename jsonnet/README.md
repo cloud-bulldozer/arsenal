@@ -7,6 +7,10 @@ Jsonnet based dashboards is an effort to improve the manageability of grafana js
 
 ## How to
 
+To make a change, simply update the desired .jsonnet dashboard file and push your changes. The project is configured with Travis to automatically render updated files into .json format at the jsonnet/rendered directory. In addition, when a PR is detected, a Jenkins job to commit these updated dashboards to Marquez (http://marquez.perf.lab.eng.rdu2.redhat.com:3000) will be triggered.
+
+Alternatively, you can render the jsonnet files manually by doing the following: 
+
 Render a jsonnet file is as simple as executing `jsonnet <jsonnet_template>`. The jsonnet binary is not included in this repo, though binary builds can be found in its official [repository](https://github.com/google/jsonnet/releases).
 A makefile has been included to automate jsonnet formatting and rendering tasks. Executing `make` downloads the jsonnet binary and renders the templates at the *rendered* directory.
 
