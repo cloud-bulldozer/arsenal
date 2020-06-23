@@ -1,6 +1,0 @@
-language: bash
-before_script:
-- cd jsonnet/
-- git clone --depth 1 https://github.com/grafana/grafonnet-lib.git templates/grafonnet-lib
-script:
-- make
