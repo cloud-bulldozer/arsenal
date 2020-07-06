@@ -11,6 +11,7 @@ local rps = grafana.graphPanel.new(
   legend_alignAsTable=true,
   legend_values=true,
   transparent= true,
+  nullPointMode='connected',
 )
   {
     yaxes: [{
@@ -25,7 +26,7 @@ local rps = grafana.graphPanel.new(
   }
 .addTarget(
   es.target(
-    query='uuid: $uuid AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
+    query='uuid: $uuid AND hostname: $hostname AND iteration: $iteration AND targets: "$targets"',
     timeField='timestamp',
     metrics=[{
       field: 'rps',
@@ -58,6 +59,7 @@ local throughput = grafana.graphPanel.new(
   legend_alignAsTable=true,
   legend_values=true,
   transparent= true,
+  nullPointMode='connected',
 )
   {
     yaxes: [{
@@ -72,7 +74,7 @@ local throughput = grafana.graphPanel.new(
   }
 .addTarget(
   es.target(
-    query='uuid: $uuid AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
+    query='uuid: $uuid AND hostname: $hostname AND iteration: $iteration AND targets: "$targets"',
     timeField='timestamp',
     metrics=[{
       field: 'throughput',
@@ -98,16 +100,17 @@ local throughput = grafana.graphPanel.new(
 local latency = grafana.graphPanel.new(
   title='Request Latency (observed over given interval)',
   datasource='$datasource',
-  format='ms',
+  format='µs',
   legend_max=true,
   legend_avg=true,
   legend_alignAsTable=true,
   legend_values=true,
   transparent= true,
+  nullPointMode='connected',
 )
   {
     yaxes: [{
-      format: 'ms',
+      format: 'µs',
       show: 'true'
     },
     {
@@ -118,7 +121,7 @@ local latency = grafana.graphPanel.new(
   }
 .addTarget(
   es.target(
-    query='uuid: $uuid AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
+    query='uuid: $uuid AND hostname: $hostname AND iteration: $iteration AND targets: "$targets"',
     timeField='timestamp',
     metrics=[{
       field: 'req_latency',
@@ -142,7 +145,7 @@ local latency = grafana.graphPanel.new(
 )
 .addTarget(
   es.target(
-    query='uuid: $uuid AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
+    query='uuid: $uuid AND hostname: $hostname AND iteration: $iteration AND targets: "$targets"',
     timeField='timestamp',
     metrics=[{
       field: 'p99_latency',
@@ -210,7 +213,7 @@ local results = grafana.tablePanel.new(
 )
 .addTarget(
   es.target(
-    query='uuid: $uuid AND hostname: $hostname AND targets: $targets AND iteration: $iteration',
+    query='uuid: $uuid AND hostname: $hostname AND iteration: $iteration AND targets: "$targets"',
     timeField='timestamp',
     bucketAggs=[
             {
@@ -303,32 +306,6 @@ grafana.dashboard.new(
 
 .addTemplate(
   grafana.template.new(
-    'cluster_name',
-    '$datasource',
-    '{"find": "terms", "field": "cluster_name.keyword"}',
-    refresh=2,
-  ) {
-    type: 'query',
-    multi: false,
-    includeAll: true,
-  }
-)
-
-.addTemplate(
-  grafana.template.new(
-    'user',
-    '$datasource',
-    '{"find": "terms", "field": "user.keyword"}',
-    refresh=2,
-  ) {
-    type: 'query',
-    multi: false,
-    includeAll: true,
-  }
-)
-
-.addTemplate(
-  grafana.template.new(
     'hostname',
     '$datasource',
     '{"find": "terms", "field": "hostname.keyword"}',
@@ -358,19 +335,6 @@ grafana.dashboard.new(
     'iteration',
     '$datasource',
     '{"find": "terms", "field": "iteration"}',
-    refresh=2,
-  ) {
-    type: 'query',
-    multi: false,
-    includeAll: true,
-  }
-)
-
-.addTemplate(
-  grafana.template.new(
-    'keepalive',
-    '$datasource',
-    '{"find": "terms", "field": "keepalive"}',
     refresh=2,
   ) {
     type: 'query',
