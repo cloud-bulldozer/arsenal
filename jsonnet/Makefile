@@ -2,17 +2,13 @@ JSONNET = https://github.com/google/jsonnet/releases/download/v0.15.0/jsonnet-bi
 BINDIR = bin
 TEMPLATESDIR = templates
 OUTPUTDIR = rendered
-TMPDIR = tmp
-ALLDIRS = $(BINDIR) $(OUTPUTDIR) $(TMPDIR)
+ALLDIRS = $(BINDIR) $(OUTPUTDIR)
 
 # Get all templates at $(TEMPLATESDIR)
 TEMPLATES = $(wildcard $(TEMPLATESDIR)/*.jsonnet)
 
 # Replace $(TEMPLATESDIR)/*.jsonnet by $(OUTPUTDIR)/*.json
 outputs = $(patsubst $(TEMPLATESDIR)/%.jsonnet, $(OUTPUTDIR)/%.json, $(TEMPLATES))
-
-# Replace $(TEMPLATESDIR)/*.jsonnet by $(TMPDIR)/*.jsonnet
-fmtoutputs = $(patsubst $(TEMPLATESDIR)/%.jsonnet, $(TMPDIR)/%.jsonnet, $(TEMPLATES))
 
 all: deps build
 
@@ -21,7 +17,8 @@ deps: $(ALLDIRS) $(TEMPLATESDIR)/grafonnet-lib $(BINDIR)/jsonnet
 $(ALLDIRS):
 	mkdir -p $(ALLDIRS)
 
-format: $(fmtoutputs)
+format:
+	$(BINDIR)/jsonnetfmt -i $(TEMPLATES)
 
 build: deps $(TEMPLATESDIR)/grafonnet-lib $(outputs)
 
@@ -34,13 +31,7 @@ $(TEMPLATESDIR)/grafonnet-lib:
 
 $(BINDIR)/jsonnet:
 	@echo "Downloading jsonnet binary"
-	curl -s -L $(JSONNET) | tar xzf - -C $(BINDIR)
-
-# Format each template and output to $(TMPDIR)
-$(TMPDIR)/%.jsonnet: $(TEMPLATESDIR)/%.jsonnet
-	@echo "Formating template $<"
-	$(BINDIR)/jsonnetfmt $< > $@
-	mv $@ $<
+	curl -s -L $(JSONNET) | tar xz -C $(BINDIR)
 
 # Build each template and output to $(OUTPUTDIR)
 $(OUTPUTDIR)/%.json: $(TEMPLATESDIR)/%.jsonnet

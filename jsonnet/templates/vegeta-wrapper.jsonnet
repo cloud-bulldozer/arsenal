@@ -10,21 +10,21 @@ local rps = grafana.graphPanel.new(
   legend_avg=true,
   legend_alignAsTable=true,
   legend_values=true,
-  transparent= true,
+  transparent=true,
   nullPointMode='connected',
-)
-  {
-    yaxes: [{
+) {
+  yaxes: [
+    {
       format: 'reqps',
-      show: 'true'
+      show: 'true',
     },
     {
       format: 'pps',
-      show: 'false'
-    }],
-    fill: 2
-  }
-.addTarget(
+      show: 'false',
+    },
+  ],
+  fill: 2,
+}.addTarget(
   es.target(
     query='uuid: $uuid AND hostname: $hostname AND iteration: $iteration AND targets: "$targets"',
     timeField='timestamp',
@@ -58,21 +58,21 @@ local throughput = grafana.graphPanel.new(
   legend_avg=true,
   legend_alignAsTable=true,
   legend_values=true,
-  transparent= true,
+  transparent=true,
   nullPointMode='connected',
-)
-  {
-    yaxes: [{
+) {
+  yaxes: [
+    {
       format: 'reqps',
-      show: 'true'
+      show: 'true',
     },
     {
       format: 'pps',
-      show: 'false'
-    }],
-    fill: 2
-  }
-.addTarget(
+      show: 'false',
+    },
+  ],
+  fill: 2,
+}.addTarget(
   es.target(
     query='uuid: $uuid AND hostname: $hostname AND iteration: $iteration AND targets: "$targets"',
     timeField='timestamp',
@@ -105,21 +105,21 @@ local latency = grafana.graphPanel.new(
   legend_avg=true,
   legend_alignAsTable=true,
   legend_values=true,
-  transparent= true,
+  transparent=true,
   nullPointMode='connected',
-)
-  {
-    yaxes: [{
+) {
+  yaxes: [
+    {
       format: 'µs',
-      show: 'true'
+      show: 'true',
     },
     {
       format: 'pps',
-      show: 'false'
-    }],
-    fill: 2
-  }
-.addTarget(
+      show: 'false',
+    },
+  ],
+  fill: 2,
+}.addTarget(
   es.target(
     query='uuid: $uuid AND hostname: $hostname AND iteration: $iteration AND targets: "$targets"',
     timeField='timestamp',
@@ -142,8 +142,7 @@ local latency = grafana.graphPanel.new(
       type: 'date_histogram',
     }],
   )
-)
-.addTarget(
+).addTarget(
   es.target(
     query='uuid: $uuid AND hostname: $hostname AND iteration: $iteration AND targets: "$targets"',
     timeField='timestamp',
@@ -171,113 +170,113 @@ local latency = grafana.graphPanel.new(
 local results = grafana.tablePanel.new(
   title='Vegeta Result Summary',
   datasource='$datasource',
-  transparent= true,
-  styles= [
-     {
+  transparent=true,
+  styles=[
+    {
       decimals: '2',
       pattern: 'Average rps',
       type: 'number',
-      unit: 'reqps'
+      unit: 'reqps',
     },
-     {
+    {
       decimals: '2',
       pattern: 'Average throughput',
       type: 'number',
-      unit: 'reqps'
+      unit: 'reqps',
     },
     {
       decimals: '2',
       pattern: 'Average p99_latency',
       type: 'number',
-      unit: 'µs'
+      unit: 'µs',
     },
     {
       decimals: '2',
       pattern: 'Average req_latency',
       type: 'number',
-      unit: 'µs'
+      unit: 'µs',
     },
     {
       decimals: '2',
       pattern: 'Average bytes_in',
       type: 'number',
-      unit: 'bps'
+      unit: 'bps',
     },
     {
       decimals: '2',
       pattern: 'Average bytes_out',
       type: 'number',
-      unit: 'bps'
-    }
+      unit: 'bps',
+    },
   ],
-)
-.addTarget(
+).addTarget(
   es.target(
     query='uuid: $uuid AND hostname: $hostname AND iteration: $iteration AND targets: "$targets"',
     timeField='timestamp',
     bucketAggs=[
-            {
-              fake: true,
-              field: 'targets.keyword',
-              id: '1',
-              settings: {
-                min_doc_count: 1,
-                order: 'desc',
-                orderBy: '_term',
-                size: '10',
-              },
-              type: 'terms'
-            },
-            {
-              field: 'uuid.keyword',
-              id: '2',
-              settings: {
-                min_doc_count: 1,
-                order: 'desc',
-                orderBy: '_term',
-                size: '10',
-              },
-              type: 'terms'
-            }
-          ],
-          metrics=[
-            {
-              field: 'rps',
-              id: '3',
-              type: 'avg'
-            },
-            {
-              field: 'throughput',
-              id: '4',
-              type: 'avg'
-            },
-            {
-              field: 'p99_latency',
-              id: '5',
-              type: 'avg'
-            },
-            {
-              field: 'req_latency',
-              id: '6',
-              type: 'avg'
-            },
-            {
-              field: 'bytes_in',
-              id: '7',
-              type: 'avg'
-            },
-            {
-              field: 'bytes_out',
-              id: '8',
-              type: 'avg'
-            },
-          ],
+      {
+        fake: true,
+        field: 'targets.keyword',
+        id: '1',
+        settings: {
+          min_doc_count: 1,
+          order: 'desc',
+          orderBy: '_term',
+          size: '10',
+        },
+        type: 'terms',
+      },
+      {
+        field: 'uuid.keyword',
+        id: '2',
+        settings: {
+          min_doc_count: 1,
+          order: 'desc',
+          orderBy: '_term',
+          size: '10',
+        },
+        type: 'terms',
+      },
+    ],
+    metrics=[
+      {
+        field: 'rps',
+        id: '3',
+        type: 'avg',
+      },
+      {
+        field: 'throughput',
+        id: '4',
+        type: 'avg',
+      },
+      {
+        field: 'p99_latency',
+        id: '5',
+        type: 'avg',
+      },
+      {
+        field: 'req_latency',
+        id: '6',
+        type: 'avg',
+      },
+      {
+        field: 'bytes_in',
+        id: '7',
+        type: 'avg',
+      },
+      {
+        field: 'bytes_out',
+        id: '8',
+        type: 'avg',
+      },
+    ],
   )
 );
 
 grafana.dashboard.new(
   'Vegeta Results Dashboard',
   description='',
+  timezone='utc',
   time_from='now-24h',
   editable='true',
 )

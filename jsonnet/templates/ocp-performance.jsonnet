@@ -144,14 +144,14 @@ local networkConnections(nodeName) =
     legend_values=true,
     legend_hideEmpty=true,
     legend_hideZero=true,
-    transparent= true,
+    transparent=true,
   )
   {
     fill: 0,
     seriesOverrides: [{
-      alias: 'conntrack_entries'
+      alias: 'conntrack_entries',
     }],
-    yaxes: [{show: true}, {show: false}],
+    yaxes: [{ show: true }, { show: false }],
   }
   .addTarget(
     prometheus.target(
@@ -166,31 +166,29 @@ local networkConnections(nodeName) =
   );
 
 
-local containerCPU(nodeName) =
-  grafana.graphPanel.new(
-    title='Top 10 Container CPU usage: ' + nodeName,
-    datasource='$datasource',
-    format='percent',
-    nullPointMode='null as zero'
-  ).addTarget(
-    prometheus.target(
-      'topk(10, sum(rate(container_cpu_usage_seconds_total{name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"}[2m])) by (namespace, pod, container)) * 100',
-      legendFormat='{{ namespace }}: {{ pod }}-{{ container }}',
-    )
-  );
+local containerCPU(nodeName) = grafana.graphPanel.new(
+  title='Top 10 Container CPU usage: ' + nodeName,
+  datasource='$datasource',
+  format='percent',
+  nullPointMode='null as zero',
+).addTarget(
+  prometheus.target(
+    'topk(10, sum(rate(container_cpu_usage_seconds_total{name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"}[2m])) by (namespace, pod, container)) * 100',
+    legendFormat='{{ namespace }}: {{ pod }}-{{ container }}',
+  )
+);
 
-local containerMemory(nodeName) =
-  grafana.graphPanel.new(
-    title='Top 10 Container Memory usage: ' + nodeName,
-    datasource='$datasource',
-    format='bytes',
-    nullPointMode='null as zero',
-  ).addTarget(
-    prometheus.target(
-      'topk(10, sum(rate(container_memory_rss{name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"}[2m])) by (namespace, pod, container))',
-      legendFormat='{{ namespace }}: {{ pod }}-{{ container }}',
-    )
-  );
+local containerMemory(nodeName) = grafana.graphPanel.new(
+  title='Top 10 Container Memory usage: ' + nodeName,
+  datasource='$datasource',
+  format='bytes',
+  nullPointMode='null as zero',
+).addTarget(
+  prometheus.target(
+    'topk(10, sum(rate(container_memory_rss{name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"}[2m])) by (namespace, pod, container))',
+    legendFormat='{{ namespace }}: {{ pod }}-{{ container }}',
+  )
+);
 
 
 // Individual panel definitions
@@ -219,6 +217,12 @@ local kubeletCPU = grafana.graphPanel.new(
   title='Top 10 Kubelet CPU usage',
   datasource='$datasource',
   format='percent',
+  legend_values=true,
+  legend_alignAsTable=true,
+  legend_max=true,
+  legend_rightSide=true,
+  legend_sort='max',
+  legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
     'topk(10,rate(process_cpu_seconds_total{service="kubelet",job="kubelet"}[2m]))*100',
@@ -230,6 +234,12 @@ local crioCPU = grafana.graphPanel.new(
   title='Top 10 crio CPU usage',
   datasource='$datasource',
   format='percent',
+  legend_values=true,
+  legend_alignAsTable=true,
+  legend_max=true,
+  legend_rightSide=true,
+  legend_sort='max',
+  legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
     'topk(10,rate(process_cpu_seconds_total{service="kubelet",job="crio"}[2m]))*100',
@@ -239,8 +249,14 @@ local crioCPU = grafana.graphPanel.new(
 
 local kubeletMemory = grafana.graphPanel.new(
   datasource='$datasource',
+  title='Top 10 Kubelet memory usage',
   format='bytes',
-  title='Top 10 Kubelet memory usage'
+  legend_values=true,
+  legend_alignAsTable=true,
+  legend_max=true,
+  legend_rightSide=true,
+  legend_sort='max',
+  legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
     'topk(10,process_resident_memory_bytes{service="kubelet",job="kubelet"})',
@@ -250,8 +266,14 @@ local kubeletMemory = grafana.graphPanel.new(
 
 local crioMemory = grafana.graphPanel.new(
   datasource='$datasource',
+  title='Top 10 crio memory usage',
   format='bytes',
-  title='Top 10  crio memory usage'
+  legend_values=true,
+  legend_alignAsTable=true,
+  legend_max=true,
+  legend_rightSide=true,
+  legend_sort='max',
+  legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
     'topk(10,process_resident_memory_bytes{service="kubelet",job="crio"})',
@@ -385,6 +407,7 @@ grafana.dashboard.new(
   'OpenShift Performance',
   description='Performance dashboard for Red Hat OpenShift',
   time_from='now-1h',
+  timezone='utc',
   refresh='30s',
   editable='true',
 )
@@ -498,20 +521,22 @@ grafana.dashboard.new(
 
 // Dashboard definition
 
-.addPanel(grafana.row.new(title='Monitoring stack', collapse=true)
-          .addPanel(promReplMemUsage, gridPos={ x: 0, y: 1, w: 24, h: 12 })
-          , { gridPos: { x: 0, y: 0, w: 24, h: 1 } })
-
-.addPanel(grafana.row.new(title='Kubelet', collapse=true)
-          .addPanels(
-  [
-    kubeletCPU { gridPos: { x: 0, y: 2, w: 12, h: 8 } },
-    crioCPU { gridPos: { x: 12, y: 2, w: 12, h: 8 } },
-    kubeletMemory { gridPos: { x: 0, y: 2, w: 12, h: 8 } },
-    crioMemory { gridPos: { x: 12, y: 2, w: 12, h: 8 } },
-  ]
+.addPanel(
+  grafana.row.new(title='Monitoring stack', collapse=true)
+  .addPanel(promReplMemUsage, gridPos={ x: 0, y: 1, w: 24, h: 12 })
+  , { gridPos: { x: 0, y: 0, w: 24, h: 1 } }
 )
-          , { gridPos: { x: 0, y: 1, w: 24, h: 1 } })
+
+.addPanel(
+  grafana.row.new(title='Kubelet', collapse=true).addPanels(
+    [
+      kubeletCPU { gridPos: { x: 0, y: 2, w: 12, h: 8 } },
+      crioCPU { gridPos: { x: 12, y: 2, w: 12, h: 8 } },
+      kubeletMemory { gridPos: { x: 0, y: 2, w: 12, h: 8 } },
+      crioMemory { gridPos: { x: 12, y: 2, w: 12, h: 8 } },
+    ]
+  ), { gridPos: { x: 0, y: 1, w: 24, h: 1 } }
+)
 
 
 .addPanel(grafana.row.new(title='Cluster Details', collapse=true).addPanels(
@@ -528,8 +553,7 @@ grafana.dashboard.new(
     top10ContMem { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
     top10ContCPU { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
   ]
-)
-          , { gridPos: { x: 0, y: 1, w: 0, h: 8 } })
+), { gridPos: { x: 0, y: 1, w: 0, h: 8 } })
 
 
 .addPanel(grafana.row.new(title='Master: $_master_node', collapse=true, repeat='_master_node').addPanels(
@@ -561,8 +585,7 @@ grafana.dashboard.new(
   ],
 ), { gridPos: { x: 0, y: 1, w: 0, h: 8 } })
 
-.addPanel(grafana.row.new(title='Infra: $_infra_node', collapse=true, repeat='_infra_node')
-          .addPanels(
+.addPanel(grafana.row.new(title='Infra: $_infra_node', collapse=true, repeat='_infra_node').addPanels(
   [
     nodeCPU('$_infra_node') { gridPos: { x: 0, y: 0, w: 12, h: 8 } },
     nodeMemory('$_infra_node') { gridPos: { x: 12, y: 0, w: 12, h: 8 } },

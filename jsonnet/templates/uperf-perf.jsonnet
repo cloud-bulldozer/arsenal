@@ -11,19 +11,19 @@ local throughput = grafana.graphPanel.new(
   legend_avg=true,
   legend_alignAsTable=true,
   legend_values=true,
-  transparent= true,
-)
-  {
-    yaxes: [{
+  transparent=true,
+) {
+  yaxes: [
+    {
       format: 'bps',
-      show: 'true'
+      show: 'true',
     },
     {
       format: 'pps',
-      show: 'false'
-    }]
-  }
-.addTarget(
+      show: 'false',
+    },
+  ],
+}.addTarget(
   es.target(
     query='uuid: $uuid AND cluster_name: $cluster_name AND user: $user AND  iteration: $iteration AND remote_ip: $server AND message_size: $message_size AND test_type: $test_type AND protocol: $protocol AND num_threads: $threads',
     timeField='uperf_ts',
@@ -34,8 +34,8 @@ local throughput = grafana.graphPanel.new(
       meta: {},
       settings: {
         script: {
-          inline: '_value * 8'
-        }
+          inline: '_value * 8',
+        },
       },
       transparent: true,
       type: 'sum',
@@ -61,19 +61,19 @@ local operations = grafana.graphPanel.new(
   legend_avg=true,
   legend_alignAsTable=true,
   legend_values=true,
-  transparent= true,
-)
-  {
-    yaxes: [{
+  transparent=true,
+) {
+  yaxes: [
+    {
       format: 'pps',
-      show: 'true'
+      show: 'true',
     },
     {
       format: 'pps',
-      show: 'false'
-    }]
-  }
-.addTarget(
+      show: 'false',
+    },
+  ],
+}.addTarget(
   es.target(
     query='uuid: $uuid AND user: $user AND  iteration: $iteration AND remote_ip: $server AND message_size: $message_size AND test_type: $test_type AND protocol: $protocol AND num_threads: $threads',
     timeField='uperf_ts',
@@ -102,125 +102,125 @@ local operations = grafana.graphPanel.new(
 local results = grafana.tablePanel.new(
   title='UPerf Result Summary',
   datasource='$datasource',
-  transparent= true,
-  styles= [
+  transparent=true,
+  styles=[
     {
       pattern: 'message_size',
       type: 'string',
-      unit: 'Bps'
+      unit: 'Bps',
     },
     {
       decimals: '2',
       pattern: 'Average norm_byte',
       type: 'number',
-      unit: 'bps'
+      unit: 'bps',
     },
     {
       decimals: '0',
       pattern: 'Average norm_ops',
       type: 'number',
-      unit: 'none'
+      unit: 'none',
     },
     {
       decimals: '2',
       pattern: 'Average norm_ltcy',
       type: 'number',
-      unit: 'µs'
+      unit: 'µs',
     },
     {
       alias: 'Sample count',
       decimals: '2',
       pattern: 'Count',
       type: 'number',
-      unit: 'short'
-    }
+      unit: 'short',
+    },
   ],
-)
-.addTarget(
+).addTarget(
   es.target(
     query='uuid: $uuid AND user: $user AND  iteration: $iteration AND remote_ip: $server AND message_size: $message_size AND test_type: $test_type AND protocol: $protocol AND NOT norm_ops:0',
     timeField='uperf_ts',
-    bucketAggs=[{
-              fake: true,
-              field: 'test_type.keyword',
-              id: '3',
-              settings: {
-                min_doc_count: 1,
-                order: 'desc',
-                orderBy: '_term',
-                size: '10',
-              },
-              type: 'terms'
-            },
-            {
-              fake: true,
-              field: 'protocol.keyword',
-              id: '4',
-              settings: {
-                min_doc_count: 1,
-                order: 'desc',
-                orderBy: '_term',
-                size: '10'
-              },
-              type: 'terms'
-            },
-            {
-              fake: true,
-              field: 'num_threads',
-              id: '5',
-              settings: {
-                min_doc_count: 1,
-                order: 'desc',
-                orderBy: '_term',
-                size: '10'
-              },
-              type: 'terms'
-            },
-            {
-              field: 'message_size',
-              id: '2',
-              settings: {
-                min_doc_count: 1,
-                order: 'desc',
-                orderBy: '_term',
-                size: '10'
-              },
-              type: 'terms'
-            }
-          ],
-          metrics=[
-            {
-              field: 'norm_byte',
-              id: '1',
-              inlineScript: '_value * 8',
-              meta: {},
-              settings: {
-                script: {
-                  inline: '_value * 8'
-                }
-              },
-              type: 'avg'
-            },
-            {
-              field: 'norm_ops',
-              id: '6',
-              meta: {},
-              settings: {},
-              type: 'avg'
-            },
-            {
-              field: 'norm_ltcy',
-              id: '7',
-              meta: {},
-              settings: {},
-              type: 'avg'
-            },
-            {
-              field: 'select field',
-              id: '8',
-              type: 'count'
-            }
-          ],
+    bucketAggs=[
+      {
+        fake: true,
+        field: 'test_type.keyword',
+        id: '3',
+        settings: {
+          min_doc_count: 1,
+          order: 'desc',
+          orderBy: '_term',
+          size: '10',
+        },
+        type: 'terms',
+      },
+      {
+        fake: true,
+        field: 'protocol.keyword',
+        id: '4',
+        settings: {
+          min_doc_count: 1,
+          order: 'desc',
+          orderBy: '_term',
+          size: '10',
+        },
+        type: 'terms',
+      },
+      {
+        fake: true,
+        field: 'num_threads',
+        id: '5',
+        settings: {
+          min_doc_count: 1,
+          order: 'desc',
+          orderBy: '_term',
+          size: '10',
+        },
+        type: 'terms',
+      },
+      {
+        field: 'message_size',
+        id: '2',
+        settings: {
+          min_doc_count: 1,
+          order: 'desc',
+          orderBy: '_term',
+          size: '10',
+        },
+        type: 'terms',
+      },
+    ],
+    metrics=[
+      {
+        field: 'norm_byte',
+        id: '1',
+        inlineScript: '_value * 8',
+        meta: {},
+        settings: {
+          script: {
+            inline: '_value * 8',
+          },
+        },
+        type: 'avg',
+      },
+      {
+        field: 'norm_ops',
+        id: '6',
+        meta: {},
+        settings: {},
+        type: 'avg',
+      },
+      {
+        field: 'norm_ltcy',
+        id: '7',
+        meta: {},
+        settings: {},
+        type: 'avg',
+      },
+      {
+        field: 'select field',
+        id: '8',
+        type: 'count',
+      },
+    ],
   )
 );
 
@@ -231,6 +231,7 @@ grafana.dashboard.new(
   'Public - UPerf Results',
   description='',
   tags=['network', 'performance'],
+  timezone='utc',
   time_from='now-1h',
   editable='true',
 )
@@ -365,4 +366,4 @@ grafana.dashboard.new(
 
 .addPanel(throughput, gridPos={ x: 0, y: 0, w: 12, h: 9 })
 .addPanel(operations, gridPos={ x: 12, y: 0, w: 12, h: 9 })
-.addPanel(results, gridPos={x: 0, y: 20, w: 24, h: 18})
+.addPanel(results, gridPos={ x: 0, y: 20, w: 24, h: 18 })
