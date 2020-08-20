@@ -47,6 +47,7 @@ rm -rf bin rendered tmp templates/grafonnet-lib
 The following templates are available:
 - OpenShift Performance Dashboard
 - API Performance Dashboard
+- Etcd Dashboard
 - UPerf Results Dashboard
 - Pgbench Dashboard
 - YCSB Dashboard
