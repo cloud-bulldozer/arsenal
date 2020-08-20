@@ -85,6 +85,7 @@ local percent_db_used = grafana.singlestat.new(
 local db_capacity_left = grafana.singlestat.new(
   title='DB Left capacity (with fragmented space) $pod',
   datasource='$datasource',
+  format='bytes',
 ).addTarget(
   prometheus.target(
     'etcd_server_quota_backend_bytes{pod=~"$pod",job=~"$cluster"} - etcd_mvcc_db_total_size_in_bytes{pod=~"$pod",job=~"$cluster"}',
@@ -95,6 +96,7 @@ local db_capacity_left = grafana.singlestat.new(
 local db_size_limit = grafana.singlestat.new(
   title='DB Size Limit (Backend-bytes) $pod',
   datasource='$datasource',
+  format='bytes'
 ).addTarget(
   prometheus.target(
     'etcd_server_quota_backend_bytes{pod=~"$pod",job=~"$cluster"}',
@@ -113,8 +115,8 @@ local keys = grafana.graphPanel.new(
   )
 );
 
-local failures = grafana.graphPanel.new(
-  title='Failures',
+local heartbeat_failures = grafana.graphPanel.new(
+  title='Heartbeat Failures',
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
@@ -355,8 +357,8 @@ grafana.dashboard.new(
   grafana.row.new(title='DB Info per Member', collapse=true).addPanels(
     [
       percent_db_used { gridPos: { x: 0, y: 8, w: 8, h: 6 } },
-      db_capacity_left { gridPos: { x: 0, y: 14, w: 8, h: 6 } },
-      db_size_limit { gridPos: { x: 0, y: 20, w: 8, h: 5 } },
+      db_capacity_left { gridPos: { x: 8, y: 8, w: 8, h: 6 } },
+      db_size_limit { gridPos: { x: 16, y: 8, w: 8, h: 6 } },
     ]
   ), { gridPos: { x: 0, y: 7, w: 24, h: 1 } }
 )
@@ -365,7 +367,7 @@ grafana.dashboard.new(
   grafana.row.new(title='General Info', collapse=true).addPanels(
     [
       keys { gridPos: { x: 0, y: 26, w: 12, h: 8 } },
-      failures { gridPos: { x: 12, y: 26, w: 9, h: 6 } },
+      heartbeat_failures { gridPos: { x: 12, y: 26, w: 9, h: 6 } },
       total_number_of_failed_proposals { gridPos: { x: 21, y: 26, w: 3, h: 6 } },
       key_operations { gridPos: { x: 0, y: 34, w: 12, h: 8 } },
       slow_operations { gridPos: { x: 12, y: 32, w: 6, h: 7 } },
