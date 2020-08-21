@@ -286,7 +286,8 @@ grafana.dashboard.new(
     'datasource',
     'elasticsearch',
     'ripsaw-vegeta-results',
-    label='vegeta-results datasource'
+    label='vegeta-results datasource',
+    regex='/(.*vegeta.*)/',
   )
 )
 
