@@ -241,7 +241,8 @@ grafana.dashboard.new(
     'datasource',
     'elasticsearch',
     'bull-uperf',
-    label='uperf-results datasource'
+    label='uperf-results datasource',
+    regex='/(.*uperf.*)/',
   )
 )
 

@@ -419,23 +419,8 @@ local current_pod_count = grafana.statPanel.new(
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
-    'sum(kube_pod_status_phase{phase="Running",namespace=~"$namespace",clustername=~"$clustername"})',
-    legendFormat='Running Pods',
-  )
-).addTarget(
-  prometheus.target(
-    'sum(kube_pod_status_phase{phase="Succeeded",namespace=~"$namespace",clustername=~"$clustername"})',
-    legendFormat='Succeeded Pods',
-  )
-).addTarget(
-  prometheus.target(
-    'sum(kube_pod_status_phase{phase="Failed",namespace=~"$namespace",clustername=~"$clustername"})',
-    legendFormat='Failed Pods',
-  )
-).addTarget(
-  prometheus.target(
-    'sum(kube_pod_status_phase{phase="Failed",namespace=~"$namespace",clustername=~"$clustername"})',
-    legendFormat='Failed Pods',
+    'sum(kube_pod_status_phase{namespace=~"$namespace",clustername=~"$clustername"}) by (phase)',
+    legendFormat='{{ phase}} Pods',
   )
 );
 
@@ -540,6 +525,7 @@ local alerts = grafana.graphPanel.new(
 ).addTarget(
   prometheus.target(
     'topk(10,sum(ALERTS{severity!="none"}) by (alertname, severity))',
+    legendFormat='{{severity}}: {{alertname}}',
   )
 );
 
@@ -685,7 +671,7 @@ grafana.dashboard.new(
     label: 'Master',
     type: 'query',
     multi: true,
-    includeAll: true,
+    includeAll: false,
   }
 )
 
@@ -699,8 +685,8 @@ grafana.dashboard.new(
   ) {
     label: 'Worker',
     type: 'query',
-    multi: true,
-    includeAll: true,
+    multi: false,
+    includeAll: false,
   },
 )
 
@@ -714,8 +700,8 @@ grafana.dashboard.new(
   ) {
     label: 'Infra',
     type: 'query',
-    multi: true,
-    includeAll: true,
+    multi: false,
+    includeAll: false,
   },
 )
 
@@ -731,7 +717,7 @@ grafana.dashboard.new(
   ) {
     label: 'Namespace',
     type: 'query',
-    multi: true,
+    multi: false,
     includeAll: true,
   },
 )
