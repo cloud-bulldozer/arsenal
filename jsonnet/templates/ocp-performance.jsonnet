@@ -298,6 +298,52 @@ local processRSS(nodeName) = grafana.graphPanel.new(
 
 // Individual panel definitions
 
+// OVN
+
+local ovnAnnotationLatency = grafana.graphPanel.new(
+  title='Pod Annotation Latency',
+  datasource='$datasource',
+  format='short'
+).addTarget(
+  prometheus.target(
+    'sum by (instance) (rate(ovnkube_master_pod_creation_latency_seconds_sum[5m]))',
+    legendFormat='{{instance}}',
+  )
+);
+
+local ovnCNIAdd = grafana.graphPanel.new(
+  title='CNI Request ADD Latency',
+  datasource='$datasource',
+  format='short'
+).addTarget(
+  prometheus.target(
+    'sum by (instance) (rate(ovnkube_node_cni_request_duration_seconds_sum{command="ADD"}[5m]))',
+    legendFormat='{{instance}}',
+  )
+);
+
+local ovnCNIDel = grafana.graphPanel.new(
+  title='CNI Request DEL Latency',
+  datasource='$datasource',
+  format='short'
+).addTarget(
+  prometheus.target(
+    'sum by (instance) (rate(ovnkube_node_cni_request_duration_seconds_sum{command="DEL"}[5m]))',
+    legendFormat='{{instance}}',
+  )
+);
+
+local ovnFlowCount = grafana.graphPanel.new(
+  title='br-int Flow Count',
+  datasource='$datasource',
+  format='short'
+).addTarget(
+  prometheus.target(
+    'ovnkube_node_integration_bridge_openflow_total',
+    legendFormat='{{instance}}',
+  )
+);
+
 // Monitoring Stack
 
 local promReplMemUsage = grafana.graphPanel.new(
@@ -773,44 +819,55 @@ grafana.dashboard.new(
 // Dashboard definition
 
 .addPanel(
+  grafana.row.new(title='OVN', collapse=true).addPanels(
+    [
+      ovnAnnotationLatency { gridPos: { x: 0, y: 1, w: 24, h: 12 } },
+      ovnCNIAdd { gridPos: { x: 0, y: 13, w: 12, h: 8 } },
+      ovnCNIDel { gridPos: { x: 12, y: 13, w: 12, h: 8 } },
+      ovnFlowCount { gridPos: { x: 0, y: 21, w: 24, h: 12 } },
+    ]
+  ), { gridPos: { x: 0, y: 0, w: 24, h: 1 } }
+)
+
+.addPanel(
   grafana.row.new(title='Monitoring stack', collapse=true)
-  .addPanel(promReplMemUsage, gridPos={ x: 0, y: 1, w: 24, h: 12 })
-  , { gridPos: { x: 0, y: 0, w: 24, h: 1 } }
+  .addPanel(promReplMemUsage, gridPos={ x: 0, y: 2, w: 24, h: 12 })
+  , { gridPos: { x: 0, y: 1, w: 24, h: 1 } }
 )
 
 .addPanel(
   grafana.row.new(title='Cluster Kubelet', collapse=true).addPanels(
     [
-      kubeletCPU { gridPos: { x: 0, y: 2, w: 12, h: 8 } },
-      crioCPU { gridPos: { x: 12, y: 2, w: 12, h: 8 } },
-      kubeletMemory { gridPos: { x: 0, y: 2, w: 12, h: 8 } },
-      crioMemory { gridPos: { x: 12, y: 2, w: 12, h: 8 } },
+      kubeletCPU { gridPos: { x: 0, y: 3, w: 12, h: 8 } },
+      crioCPU { gridPos: { x: 12, y: 3, w: 12, h: 8 } },
+      kubeletMemory { gridPos: { x: 0, y: 11, w: 12, h: 8 } },
+      crioMemory { gridPos: { x: 12, y: 11, w: 12, h: 8 } },
     ]
-  ), { gridPos: { x: 0, y: 1, w: 24, h: 1 } }
+  ), { gridPos: { x: 0, y: 2, w: 24, h: 1 } }
 )
 
 
 .addPanel(grafana.row.new(title='Cluster Details', collapse=true).addPanels(
   [
-    current_node_count { gridPos: { x: 0, y: 3, w: 8, h: 3 } },
-    current_namespace_count { gridPos: { x: 8, y: 3, w: 8, h: 3 } },
-    current_pod_count { gridPos: { x: 16, y: 3, w: 8, h: 3 } },
-    nodeCount { gridPos: { x: 0, y: 11, w: 8, h: 8 } },
-    nsCount { gridPos: { x: 8, y: 11, w: 8, h: 8 } },
-    podCount { gridPos: { x: 16, y: 11, w: 8, h: 8 } },
-    secretCount { gridPos: { x: 0, y: 19, w: 8, h: 8 } },
-    deployCount { gridPos: { x: 8, y: 19, w: 8, h: 8 } },
-    cmCount { gridPos: { x: 16, y: 19, w: 8, h: 8 } },
-    alerts { gridPos: { x: 0, y: 27, w: 24, h: 8 } },
-    top10ContMem { gridPos: { x: 0, y: 35, w: 12, h: 8 } },
-    top10ContCPU { gridPos: { x: 12, y: 35, w: 12, h: 8 } },
-    apiReqCount { gridPos: { x: 0, y: 43, w: 8, h: 8 } },
-    inflight_api_requests { gridPos: { x: 8, y: 43, w: 8, h: 8 } },
-    reqCount { gridPos: { x: 16, y: 43, w: 8, h: 8 } },
-    api_requests_per_client { gridPos: { x: 0, y: 51, w: 12, h: 8 } },
-    goroutines_count { gridPos: { x: 12, y: 51, w: 12, h: 8 } },
+    current_node_count { gridPos: { x: 0, y: 4, w: 8, h: 3 } },
+    current_namespace_count { gridPos: { x: 8, y: 4, w: 8, h: 3 } },
+    current_pod_count { gridPos: { x: 16, y: 4, w: 8, h: 3 } },
+    nodeCount { gridPos: { x: 0, y: 12, w: 8, h: 8 } },
+    nsCount { gridPos: { x: 8, y: 12, w: 8, h: 8 } },
+    podCount { gridPos: { x: 16, y: 12, w: 8, h: 8 } },
+    secretCount { gridPos: { x: 0, y: 20, w: 8, h: 8 } },
+    deployCount { gridPos: { x: 8, y: 20, w: 8, h: 8 } },
+    cmCount { gridPos: { x: 16, y: 20, w: 8, h: 8 } },
+    alerts { gridPos: { x: 0, y: 28, w: 24, h: 8 } },
+    top10ContMem { gridPos: { x: 0, y: 36, w: 12, h: 8 } },
+    top10ContCPU { gridPos: { x: 12, y: 36, w: 12, h: 8 } },
+    apiReqCount { gridPos: { x: 0, y: 44, w: 8, h: 8 } },
+    inflight_api_requests { gridPos: { x: 8, y: 44, w: 8, h: 8 } },
+    reqCount { gridPos: { x: 16, y: 44, w: 8, h: 8 } },
+    api_requests_per_client { gridPos: { x: 0, y: 52, w: 12, h: 8 } },
+    goroutines_count { gridPos: { x: 12, y: 52, w: 12, h: 8 } },
   ]
-), { gridPos: { x: 0, y: 2, w: 24, h: 1 } })
+), { gridPos: { x: 0, y: 3, w: 24, h: 1 } })
 
 
 .addPanel(grafana.row.new(title='Master: $_master_node', collapse=true, repeat='_master_node').addPanels(
