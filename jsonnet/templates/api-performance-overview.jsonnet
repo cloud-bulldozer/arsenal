@@ -8,7 +8,7 @@ local request_duration_99th_quartile = grafana.graphPanel.new(
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
-    'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",subresource!="log",verb!~"WATCH|WATCHLIST|PROXY"}[$interval])) by(verb,le))',
+    'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{instance=~"$instance",resource=~"$resource",subresource!="log",verb!~"WATCH|WATCHLIST|PROXY"}[$interval])) by(verb,le))',
     legendFormat='{{verb}}',
   )
 );
@@ -24,7 +24,7 @@ local request_rate_by_instance = grafana.graphPanel.new(
   legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
-    'sum(rate(apiserver_request_total{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",code=~"$code",verb=~"$verb"}[$interval])) by(instance)',
+    'sum(rate(apiserver_request_total{instance=~"$instance",resource=~"$resource",code=~"$code",verb=~"$verb"}[$interval])) by(instance)',
     legendFormat='{{instance}}',
   )
 );
@@ -38,9 +38,10 @@ local request_duration_99th_quartile_by_resource = grafana.graphPanel.new(
   legend_rightSide=true,
   legend_sort='max',
   legend_sortDesc=true,
+  nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
-    'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",subresource!="log",verb!~"WATCH|WATCHLIST|PROXY"}[$interval])) by(resource,le))',
+    'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{instance=~"$instance",resource=~"$resource",subresource!="log",verb!~"WATCH|WATCHLIST|PROXY"}[$interval])) by(resource,le))',
     legendFormat='{{resource}}',
   )
 );
@@ -54,9 +55,10 @@ local request_rate_by_resource = grafana.graphPanel.new(
   legend_rightSide=true,
   legend_sort='max',
   legend_sortDesc=true,
+  nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
-    'sum(rate(apiserver_request_total{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",code=~"$code",verb=~"$verb"}[$interval])) by(resource)',
+    'sum(rate(apiserver_request_total{instance=~"$instance",resource=~"$resource",code=~"$code",verb=~"$verb"}[$interval])) by(resource)',
     legendFormat='{{resource}}',
   )
 );
@@ -66,12 +68,12 @@ local request_duration_read_write = grafana.graphPanel.new(
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
-    'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",verb=~"LIST|GET"}[$interval])) by(le))',
+    'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{instance=~"$instance",resource=~"$resource",verb=~"LIST|GET"}[$interval])) by(le))',
     legendFormat='read',
   )
 ).addTarget(
   prometheus.target(
-    'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",verb=~"POST|PUT|PATCH|UPDATE|DELETE"}[$interval])) by(le))',
+    'histogram_quantile(0.99, sum(rate(apiserver_request_duration_seconds_bucket{instance=~"$instance",resource=~"$resource",verb=~"POST|PUT|PATCH|UPDATE|DELETE"}[$interval])) by(le))',
     legendFormat='write',
   )
 );
@@ -82,12 +84,12 @@ local request_rate_read_write = grafana.graphPanel.new(
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
-    'sum(rate(apiserver_request_total{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",verb=~"LIST|GET"}[$interval]))',
+    'sum(rate(apiserver_request_total{instance=~"$instance",resource=~"$resource",verb=~"LIST|GET"}[$interval]))',
     legendFormat='read',
   )
 ).addTarget(
   prometheus.target(
-    'sum(rate(apiserver_request_total{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",verb=~"POST|PUT|PATCH|UPDATE|DELETE"}[$interval]))',
+    'sum(rate(apiserver_request_total{instance=~"$instance",resource=~"$resource",verb=~"POST|PUT|PATCH|UPDATE|DELETE"}[$interval]))',
     legendFormat='write',
   )
 );
@@ -99,7 +101,7 @@ local requests_dropped_rate = grafana.graphPanel.new(
   description='Number of requests dropped with "Try again later" response',
 ).addTarget(
   prometheus.target(
-    'sum(rate(apiserver_dropped_requests_total{apiserver="$apiserver",instance=~"$instance"}[$interval])) by (requestKind)',
+    'sum(rate(apiserver_dropped_requests_total{instance=~"$instance"}[$interval])) by (requestKind)',
   )
 );
 
@@ -110,7 +112,7 @@ local requests_terminated_rate = grafana.graphPanel.new(
   description='Number of requests which apiserver terminated in self-defense',
 ).addTarget(
   prometheus.target(
-    'sum(rate(apiserver_request_terminations_total{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",code=~"$code"}[$interval])) by(component)',
+    'sum(rate(apiserver_request_terminations_total{instance=~"$instance",resource=~"$resource",code=~"$code"}[$interval])) by(component)',
   )
 );
 
@@ -125,7 +127,7 @@ local requests_status_rate = grafana.graphPanel.new(
   legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
-    'sum(rate(apiserver_request_total{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",verb=~"$verb",code=~"$code"}[$interval])) by(code)',
+    'sum(rate(apiserver_request_total{instance=~"$instance",resource=~"$resource",verb=~"$verb",code=~"$code"}[$interval])) by(code)',
     legendFormat='{{code}}'
   )
 );
@@ -141,7 +143,7 @@ local long_running_requests = grafana.graphPanel.new(
   legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
-    'sum(apiserver_longrunning_gauge{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",verb=~"$verb"}) by(instance)',
+    'sum(apiserver_longrunning_gauge{instance=~"$instance",resource=~"$resource",verb=~"$verb"}) by(instance)',
     legendFormat='{{instance}}'
   )
 );
@@ -157,7 +159,7 @@ local request_in_flight = grafana.graphPanel.new(
   legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
-    'sum(apiserver_current_inflight_requests{apiserver="$apiserver",instance=~"$instance"}) by (instance,requestKind)',
+    'sum(apiserver_current_inflight_requests{instance=~"$instance"}) by (instance,requestKind)',
     legendFormat='{{requestKind}}-{{instance}}',
   )
 );
@@ -168,7 +170,7 @@ local pf_requests_rejected = grafana.graphPanel.new(
   description='Number of requests rejected by API Priority and Fairness system',
 ).addTarget(
   prometheus.target(
-    'sum(rate(apiserver_flowcontrol_rejected_requests_total{apiserver="$apiserver",instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}[$interval])) by (reason)',
+    'sum(rate(apiserver_flowcontrol_rejected_requests_total{instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}[$interval])) by (reason)',
   )
 );
 
@@ -184,7 +186,7 @@ local response_size_99th_quartile = grafana.graphPanel.new(
   legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
-    'histogram_quantile(0.99, sum(rate(apiserver_response_sizes_bucket{apiserver="$apiserver",instance=~"$instance",resource=~"$resource",verb=~"$verb"}[$interval])) by(instance,le))',
+    'histogram_quantile(0.99, sum(rate(apiserver_response_sizes_bucket{instance=~"$instance",resource=~"$resource",verb=~"$verb"}[$interval])) by(instance,le))',
     legendFormat='{{instance}}',
   )
 );
@@ -201,7 +203,7 @@ local pf_request_queue_length = grafana.graphPanel.new(
   legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
-    'histogram_quantile(0.99, sum(rate(apiserver_flowcontrol_request_queue_length_after_enqueue_bucket{apiserver="$apiserver",instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}[$interval])) by(flowSchema, priorityLevel, le))',
+    'histogram_quantile(0.99, sum(rate(apiserver_flowcontrol_request_queue_length_after_enqueue_bucket{instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}[$interval])) by(flowSchema, priorityLevel, le))',
     legendFormat='{{flowSchema}}:{{priorityLevel}}',
   )
 );
@@ -218,7 +220,7 @@ local pf_request_wait_duration_99th_quartile = grafana.graphPanel.new(
   legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
-    'histogram_quantile(0.99, sum(rate(apiserver_flowcontrol_request_wait_duration_seconds_bucket{apiserver="$apiserver",instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}[$interval])) by(flowSchema, priorityLevel, le))',
+    'histogram_quantile(0.99, sum(rate(apiserver_flowcontrol_request_wait_duration_seconds_bucket{instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}[$interval])) by(flowSchema, priorityLevel, le))',
     legendFormat='{{flowSchema}}:{{priorityLevel}}',
   )
 );
@@ -235,7 +237,7 @@ local pf_request_execution_duration = grafana.graphPanel.new(
   legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
-    'histogram_quantile(0.99, sum(rate(apiserver_flowcontrol_request_execution_seconds_bucket{apiserver="$apiserver",instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}[$interval])) by(flowSchema, priorityLevel, le))',
+    'histogram_quantile(0.99, sum(rate(apiserver_flowcontrol_request_execution_seconds_bucket{instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}[$interval])) by(flowSchema, priorityLevel, le))',
     legendFormat='{{flowSchema}}:{{priorityLevel}}',
   )
 );
@@ -252,7 +254,7 @@ local pf_request_dispatch_rate = grafana.graphPanel.new(
   legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
-    'sum(rate(apiserver_flowcontrol_dispatched_requests_total{apiserver="$apiserver",instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}[$interval])) by(flowSchema,priorityLevel)',
+    'sum(rate(apiserver_flowcontrol_dispatched_requests_total{instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}[$interval])) by(flowSchema,priorityLevel)',
     legendFormat='{{flowSchema}}:{{priorityLevel}}',
   )
 );
@@ -263,7 +265,7 @@ local pf_concurrency_limit = grafana.graphPanel.new(
   description='Shared concurrency limit in the API Priority and Fairness system',
 ).addTarget(
   prometheus.target(
-    'sum(apiserver_flowcontrol_request_concurrency_limit{apiserver="$apiserver",instance=~"$instance",priorityLevel=~"$priorityLevel"}) by (priorityLevel)',
+    'sum(apiserver_flowcontrol_request_concurrency_limit{instance=~"$instance",priorityLevel=~"$priorityLevel"}) by (priorityLevel)',
     legendFormat='{{priorityLevel}}'
   )
 );
@@ -280,7 +282,7 @@ local pf_pending_in_queue = grafana.graphPanel.new(
   legend_sortDesc=true,
 ).addTarget(
   prometheus.target(
-    'sum(apiserver_flowcontrol_current_inqueue_requests{apiserver="$apiserver",instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}) by (flowSchema,priorityLevel)',
+    'sum(apiserver_flowcontrol_current_inqueue_requests{instance=~"$instance",flowSchema=~"$flowSchema",priorityLevel=~"$priorityLevel"}) by (flowSchema,priorityLevel)',
     legendFormat='{{flowSchema}}:{{priorityLevel}}',
   )
 );
