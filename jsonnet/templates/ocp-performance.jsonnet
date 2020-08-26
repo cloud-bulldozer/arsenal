@@ -152,6 +152,14 @@ local networkDrop(nodeName) =
     title='Network packets drop: ' + nodeName,
     datasource='$datasource',
     format='pps',
+    legend_values=true,
+    legend_alignAsTable=true,
+    legend_current=true,
+    legend_rightSide=true,
+    legend_sort='max',
+    legend_sortDesc=true,
+    nullPointMode='null as zero',
+    legend_hideZero=true,
   ).addTarget(
     prometheus.target(
       'topk(10, rate(node_network_receive_drop_total{instance=~"' + nodeName + '"}[2m]))',
@@ -199,7 +207,7 @@ local conntrackStats(nodeName) =
 
 
 local top10ContainerCPU(nodeName) = grafana.graphPanel.new(
-  title='Top 10 container CPU usage: ' + nodeName,
+  title='Top 10 container CPU: ' + nodeName,
   datasource='$datasource',
   format='percent',
   legend_values=true,
@@ -219,7 +227,7 @@ local top10ContainerCPU(nodeName) = grafana.graphPanel.new(
 local top10ContainerRSS(nodeName) = grafana.graphPanel.new(
   title='Top 10 container RSS: ' + nodeName,
   datasource='$datasource',
-  format='percent',
+  format='bytes',
   legend_values=true,
   legend_alignAsTable=true,
   legend_current=true,
@@ -227,18 +235,7 @@ local top10ContainerRSS(nodeName) = grafana.graphPanel.new(
   legend_hideEmpty=true,
   legend_hideZero=true,
   nullPointMode='null as zero',
-) {
-  yaxes: [
-    {
-      format: 'bytes',
-      show: 'true',
-    },
-    {
-      format: 'short',
-      show: 'false',
-    },
-  ],
-}.addTarget(
+).addTarget(
   prometheus.target(
     'topk(10, container_memory_rss{name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"})',
     legendFormat='{{ namespace }} - {{ name }}',
@@ -323,6 +320,8 @@ local kubeletCPU = grafana.graphPanel.new(
   legend_rightSide=true,
   legend_sort='max',
   legend_sortDesc=true,
+  nullPointMode='null as zero',
+  legend_hideZero=true,
 ).addTarget(
   prometheus.target(
     'topk(10,rate(process_cpu_seconds_total{service="kubelet",job="kubelet"}[2m]))*100',
@@ -340,6 +339,8 @@ local crioCPU = grafana.graphPanel.new(
   legend_rightSide=true,
   legend_sort='max',
   legend_sortDesc=true,
+  nullPointMode='null as zero',
+  legend_hideZero=true,
 ).addTarget(
   prometheus.target(
     'topk(10,rate(process_cpu_seconds_total{service="kubelet",job="crio"}[2m]))*100',
@@ -357,6 +358,8 @@ local kubeletMemory = grafana.graphPanel.new(
   legend_rightSide=true,
   legend_sort='max',
   legend_sortDesc=true,
+  nullPointMode='null as zero',
+  legend_hideZero=true,
 ).addTarget(
   prometheus.target(
     'topk(10,process_resident_memory_bytes{service="kubelet",job="kubelet"})',
@@ -374,6 +377,8 @@ local crioMemory = grafana.graphPanel.new(
   legend_rightSide=true,
   legend_sort='max',
   legend_sortDesc=true,
+  nullPointMode='null as zero',
+  legend_hideZero=true,
 ).addTarget(
   prometheus.target(
     'topk(10,process_resident_memory_bytes{service="kubelet",job="crio"})',
@@ -507,6 +512,7 @@ local cmCount = grafana.graphPanel.new(
   legend_max=true,
   legend_sort='max',
   legend_sortDesc=true,
+  legend_hideZero=true,
 ).addTarget(
   prometheus.target(
     'count(kube_configmap_info{})',
@@ -517,6 +523,7 @@ local cmCount = grafana.graphPanel.new(
 local alerts = grafana.graphPanel.new(
   title='Alerts',
   datasource='$datasource',
+  nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
     'topk(10,sum(ALERTS{severity!="none"}) by (alertname, severity))',
@@ -525,7 +532,7 @@ local alerts = grafana.graphPanel.new(
 );
 
 local top10ContMem = grafana.graphPanel.new(
-  title='Top 10 container memory',
+  title='Top 10 container RSS',
   datasource='$datasource',
   format='bytes',
   legend_values=true,
@@ -533,6 +540,7 @@ local top10ContMem = grafana.graphPanel.new(
   legend_current=true,
   legend_rightSide=true,
   legend_sideWidth=250,
+  nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
     'topk(10, container_memory_rss{namespace!="",name!=""})',
@@ -549,83 +557,19 @@ local top10ContCPU = grafana.graphPanel.new(
   legend_current=true,
   legend_rightSide=true,
   legend_sideWidth=250,
+  nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
-    'topk(10,rate(container_cpu_usage_seconds_total{namespace!="",name!=""}[2m]))*100)',
+    'topk(10,rate(container_cpu_usage_seconds_total{namespace!="",name!=""}[2m])*100)',
     legendFormat='{{ namespace }} - {{ name }}',
   )
 );
 
-local apiReqCount = grafana.graphPanel.new(
-  title='API Request Count',
-  datasource='$datasource',
-).addTarget(
-  prometheus.target(
-    'sum by (instance,service) (rate(apiserver_request_count{}[2m]))',
-    legendFormat='{{service}} - {{instance}}',
-  )
-);
-
-local inflight_api_requests = grafana.graphPanel.new(
-  title='Inflight API Requests',
-  datasource='$datasource',
-  legend_values=true,
-  legend_alignAsTable=true,
-  legend_current=true,
-  legend_max=true,
-  legend_sort='max',
-  legend_sortDesc=true,
-).addTarget(
-  prometheus.target(
-    'sum(apiserver_current_inflight_requests) by (requestKind)',
-    legendFormat='{{ requestKind }}',
-  )
-);
-
-local reqCount = grafana.graphPanel.new(
-  title='400/500 requests',
-  datasource='$datasource',
-  legend_values=true,
-  legend_alignAsTable=true,
-  legend_current=true,
-  legend_max=true,
-  legend_rightSide=true,
-  legend_sideWidth=150,
-).addTarget(
-  prometheus.target(
-    '100 * sum by(service,job) (rate(rest_client_requests_total{code=~"4.."}[2m])) / sum by(service,job) (rate(rest_client_requests_total{}[2m]))',
-    legendFormat='400s : {{service}} - {{job}}',
-  )
-).addTarget(
-  prometheus.target(
-    '100 * sum by(service,job) (rate(rest_client_requests_total{code=~"5.."}[2m])) / sum by(service,job) (rate(rest_client_requests_total{}[2m]))',
-    legendFormat='500s : {{service}} - {{job}}',
-  )
-);
-
-local api_requests_per_client = grafana.graphPanel.new(
-  title='API Requests per client',
-  datasource='$datasource',
-  legend_values=true,
-  legend_alignAsTable=true,
-  legend_current=true,
-  legend_max=true,
-  legend_sort='max',
-  legend_sortDesc=true,
-  legend_rightSide=true,
-).addTarget(
-  prometheus.target(
-    'sum(rate(apiserver_request_count{}[5m])) by (client,verb)',
-    legendFormat='{{client}} - {{verb}}',
-  )
-);
 
 local goroutines_count = grafana.graphPanel.new(
   title='Goroutines count',
   datasource='$datasource',
-  legend_values=true,
-  legend_alignAsTable=true,
-  legend_rightSide=true,
+  nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
     'topk(10, sum(go_goroutines{}) by (job,instance))',
@@ -796,11 +740,7 @@ grafana.dashboard.new(
     alerts { gridPos: { x: 0, y: 28, w: 24, h: 8 } },
     top10ContMem { gridPos: { x: 0, y: 36, w: 12, h: 8 } },
     top10ContCPU { gridPos: { x: 12, y: 36, w: 12, h: 8 } },
-    apiReqCount { gridPos: { x: 0, y: 44, w: 8, h: 8 } },
-    inflight_api_requests { gridPos: { x: 8, y: 44, w: 8, h: 8 } },
-    reqCount { gridPos: { x: 16, y: 44, w: 8, h: 8 } },
-    api_requests_per_client { gridPos: { x: 0, y: 52, w: 12, h: 8 } },
-    goroutines_count { gridPos: { x: 12, y: 52, w: 12, h: 8 } },
+    goroutines_count { gridPos: { x: 0, y: 44, w: 24, h: 8 } },
   ]
 ), { gridPos: { x: 0, y: 3, w: 24, h: 1 } })
 
