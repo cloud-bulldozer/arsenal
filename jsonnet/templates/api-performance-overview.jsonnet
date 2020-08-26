@@ -324,6 +324,7 @@ grafana.dashboard.new(
   description='',
   timezone='utc',
   time_from='now-1h',
+  refresh='30s',
   editable='true',
 )
 
