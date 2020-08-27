@@ -57,7 +57,7 @@ local etcd_members = grafana.singlestat.new(
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
-    'sum(etcd_server_id{pod=~"$pod",job=~"$cluster"})',
+    'sum(etcd_server_id{job="etcd"})',
     legendFormat='members'
   )
 );
