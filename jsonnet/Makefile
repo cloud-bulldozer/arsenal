@@ -10,7 +10,7 @@ TEMPLATES = $(wildcard $(TEMPLATESDIR)/*.jsonnet)
 # Replace $(TEMPLATESDIR)/*.jsonnet by $(OUTPUTDIR)/*.json
 outputs = $(patsubst $(TEMPLATESDIR)/%.jsonnet, $(OUTPUTDIR)/%.json, $(TEMPLATES))
 
-all: deps build
+all: deps format build
 
 deps: $(ALLDIRS) $(TEMPLATESDIR)/grafonnet-lib $(BINDIR)/jsonnet
 

@@ -41,33 +41,8 @@ local nodeCPU(nodeName) = grafana.graphPanel.new(
   format='percent',
 ).addTarget(
   prometheus.target(
-    'sum by (instance)(rate(node_cpu_seconds_total{mode="system",instance=~"' + nodeName + '",job=~".*",clustername=~"$clustername"}[5m])) * 100',
-    legendFormat='Busy system',
-  )
-).addTarget(
-  prometheus.target(
-    'sum by (instance)(rate(node_cpu_seconds_total{mode="user",instance=~"' + nodeName + '",job=~".*",clustername=~"$clustername"}[5m])) * 100',
-    legendFormat='Busy user',
-  )
-).addTarget(
-  prometheus.target(
-    'sum by (instance)(rate(node_cpu_seconds_total{mode="iowait",instance=~"' + nodeName + '",job=~".*",clustername=~"$clustername"}[5m])) * 100',
-    legendFormat='Busy iowait',
-  )
-).addTarget(
-  prometheus.target(
-    'sum by (instance)(rate(node_cpu_seconds_total{mode=~".*irq",instance=~"' + nodeName + '",job=~".*",clustername=~"$clustername"}[5m])) * 100',
-    legendFormat='Busy IRQs',
-  )
-).addTarget(
-  prometheus.target(
-    'sum (rate(node_cpu_seconds_total{mode!="idle",mode!="user",mode!="system",mode!="iowait",mode!="irq",mode!="softirq",instance=~"' + nodeName + '",job=~".*",clustername=~"$clustername"}[5m])) * 100',
-    legendFormat='Busy Other',
-  )
-).addTarget(
-  prometheus.target(
-    'sum by (mode)(rate(node_cpu_seconds_total{mode="idle",instance=~"' + nodeName + '",job=~".*",clustername=~"$clustername"}[5m])) * 100',
-    legendFormat='Idle',
+    'sum by (instance, mode)(rate(node_cpu_seconds_total{instance=~"' + nodeName + '",job=~".*"}[5m])) * 100',
+    legendFormat='Busy {{mode}}',
   )
 );
 
@@ -137,12 +112,12 @@ local networkUtilization(nodeName) =
     legend_hideZero=true,
   ).addTarget(
     prometheus.target(
-      'rate(node_network_receive_bytes_total{instance=~"' + nodeName + '",device=~"$net_device",clustername=~"$clustername"}[5m]) * 8',
+      'rate(node_network_receive_bytes_total{instance=~"' + nodeName + '",device=~"$net_device"}[5m]) * 8',
       legendFormat='{{instance}} - {{device}} - RX',
     )
   ).addTarget(
     prometheus.target(
-      'rate(node_network_transmit_bytes_total{instance=~"' + nodeName + '",device=~"$net_device",clustername=~"$clustername"}[5m]) * 8',
+      'rate(node_network_transmit_bytes_total{instance=~"' + nodeName + '",device=~"$net_device"}[5m]) * 8',
       legendFormat='{{instance}} - {{device}} - TX',
     )
   );
@@ -162,12 +137,12 @@ local networkPackets(nodeName) =
     legend_hideZero=true,
   ).addTarget(
     prometheus.target(
-      'rate(node_network_receive_packets_total{instance=~"' + nodeName + '",device=~"$net_device",clustername=~"$clustername"}[5m]) * 8',
+      'rate(node_network_receive_packets_total{instance=~"' + nodeName + '",device=~"$net_device"}[5m])',
       legendFormat='{{instance}} - {{device}} - RX',
     )
   ).addTarget(
     prometheus.target(
-      'rate(node_network_transmit_packets_total{instance=~"' + nodeName + '",device=~"$net_device",clustername=~"$clustername"}[5m]) * 8',
+      'rate(node_network_transmit_packets_total{instance=~"' + nodeName + '",device=~"$net_device"}[5m])',
       legendFormat='{{instance}} - {{device}} - TX',
     )
   );
@@ -177,21 +152,29 @@ local networkDrop(nodeName) =
     title='Network packets drop: ' + nodeName,
     datasource='$datasource',
     format='pps',
+    legend_values=true,
+    legend_alignAsTable=true,
+    legend_current=true,
+    legend_rightSide=true,
+    legend_sort='max',
+    legend_sortDesc=true,
+    nullPointMode='null as zero',
+    legend_hideZero=true,
   ).addTarget(
     prometheus.target(
-      'rate(node_network_receive_drop_total{instance=~"' + nodeName + '"}[2m])',
+      'topk(10, rate(node_network_receive_drop_total{instance=~"' + nodeName + '"}[2m]))',
       legendFormat='rx-drop-{{ device }}',
     )
   ).addTarget(
     prometheus.target(
-      'rate(node_network_transmit_drop_total{instance=~"' + nodeName + '"}[2m])',
+      'topk(10,rate(node_network_transmit_drop_total{instance=~"' + nodeName + '"}[2m]))',
       legendFormat='tx-drop-{{ device }}',
     )
   );
 
-local networkConnections(nodeName) =
+local conntrackStats(nodeName) =
   grafana.graphPanel.new(
-    title='Network Connections: ' + nodeName,
+    title='Conntrack stats: ' + nodeName,
     datasource='$datasource',
     legend_min=true,
     legend_max=true,
@@ -204,95 +187,58 @@ local networkConnections(nodeName) =
     transparent=true,
   )
   {
-    fill: 0,
     seriesOverrides: [{
-      alias: 'conntrack_entries',
+      alias: 'conntrack_limit',
+      yaxis: 2,
     }],
-    yaxes: [{ show: true }, { show: false }],
+    yaxes: [{ show: true }, { show: true }],
   }
   .addTarget(
     prometheus.target(
-      'node_nf_conntrack_entries{instance="' + nodeName + '"}',
+      'node_nf_conntrack_entries{instance=~"' + nodeName + '"}',
       legendFormat='conntrack_entries',
     )
   ).addTarget(
     prometheus.target(
-      'node_nf_conntrack_entries_limit{instance="' + nodeName + '"}',
+      'node_nf_conntrack_entries_limit{instance=~"' + nodeName + '"}',
       legendFormat='conntrack_limit',
     )
   );
 
 
-local top10containerCPU(nodeName) = grafana.graphPanel.new(
-  title='Top 10 Container CPU usage: ' + nodeName,
+local top10ContainerCPU(nodeName) = grafana.graphPanel.new(
+  title='Top 10 container CPU: ' + nodeName,
   datasource='$datasource',
   format='percent',
+  legend_values=true,
+  legend_alignAsTable=true,
+  legend_current=true,
+  legend_avg=true,
+  legend_hideEmpty=true,
+  legend_hideZero=true,
   nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(rate(container_cpu_usage_seconds_total{name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"}[2m])) by (namespace, pod, container)) * 100',
-    legendFormat='{{ namespace }}: {{ pod }}-{{ container }}',
+    'topk(10, sum(rate(container_cpu_usage_seconds_total{name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"}[5m])) by (namespace,name,service) * 100)',
+    legendFormat='{{ namespace }} - {{ name }}',
   )
 );
 
-local top10containerMemory(nodeName) = grafana.graphPanel.new(
-  title='Top 10 Container Memory usage: ' + nodeName,
+local top10ContainerRSS(nodeName) = grafana.graphPanel.new(
+  title='Top 10 container RSS: ' + nodeName,
   datasource='$datasource',
   format='bytes',
+  legend_values=true,
+  legend_alignAsTable=true,
+  legend_current=true,
+  legend_max=true,
+  legend_hideEmpty=true,
+  legend_hideZero=true,
   nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(rate(container_memory_rss{name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"}[2m])) by (namespace, pod, container))',
-    legendFormat='{{ namespace }}: {{ pod }}-{{ container }}',
-  )
-);
-
-local containerCPUUsage(nodeName) = grafana.graphPanel.new(
-  title='Container CPU usage: ' + nodeName,
-  datasource='$datasource',
-  format='percent',
-  legend_values=true,
-  legend_alignAsTable=true,
-  legend_current=true,
-  legend_max=true,
-  legend_min=true,
-  legend_avg=true,
-  legend_hideEmpty=true,
-  legend_hideZero=true,
-).addTarget(
-  prometheus.target(
-    'sum(rate(container_cpu_usage_seconds_total{name!="",node=~"' + nodeName + '",clustername=~"$clustername",namespace!="",namespace=~"$namespace"}[5m])) by (namespace,name,service) * 100',
-    legendFormat='{{ namespace }} - {{name}} - {{ service }}',
-  )
-);
-
-local processRSS(nodeName) = grafana.graphPanel.new(
-  title='Process RSS: ' + nodeName,
-  datasource='$datasource',
-  format='percent',
-  legend_values=true,
-  legend_alignAsTable=true,
-  legend_current=true,
-  legend_max=true,
-  legend_min=true,
-  legend_avg=true,
-  legend_hideEmpty=true,
-  legend_hideZero=true,
-) {
-  yaxes: [
-    {
-      format: 'bytes',
-      show: 'true',
-    },
-    {
-      format: 'short',
-      show: 'false',
-    },
-  ],
-}.addTarget(
-  prometheus.target(
-    'container_memory_rss{name!="",node=~"' + nodeName + '",clustername=~"$clustername",namespace!="",namespace=~"$namespace"}',
-    legendFormat='{{ namespace }} - {{name}}',
+    'topk(10, container_memory_rss{name!="",node=~"' + nodeName + '",namespace!="",namespace=~"$namespace"})',
+    legendFormat='{{ namespace }} - {{ name }}',
   )
 );
 
@@ -374,6 +320,8 @@ local kubeletCPU = grafana.graphPanel.new(
   legend_rightSide=true,
   legend_sort='max',
   legend_sortDesc=true,
+  nullPointMode='null as zero',
+  legend_hideZero=true,
 ).addTarget(
   prometheus.target(
     'topk(10,rate(process_cpu_seconds_total{service="kubelet",job="kubelet"}[2m]))*100',
@@ -391,6 +339,8 @@ local crioCPU = grafana.graphPanel.new(
   legend_rightSide=true,
   legend_sort='max',
   legend_sortDesc=true,
+  nullPointMode='null as zero',
+  legend_hideZero=true,
 ).addTarget(
   prometheus.target(
     'topk(10,rate(process_cpu_seconds_total{service="kubelet",job="crio"}[2m]))*100',
@@ -408,6 +358,8 @@ local kubeletMemory = grafana.graphPanel.new(
   legend_rightSide=true,
   legend_sort='max',
   legend_sortDesc=true,
+  nullPointMode='null as zero',
+  legend_hideZero=true,
 ).addTarget(
   prometheus.target(
     'topk(10,process_resident_memory_bytes{service="kubelet",job="kubelet"})',
@@ -425,6 +377,8 @@ local crioMemory = grafana.graphPanel.new(
   legend_rightSide=true,
   legend_sort='max',
   legend_sortDesc=true,
+  nullPointMode='null as zero',
+  legend_hideZero=true,
 ).addTarget(
   prometheus.target(
     'topk(10,process_resident_memory_bytes{service="kubelet",job="crio"})',
@@ -439,7 +393,7 @@ local current_node_count = grafana.statPanel.new(
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
-    'sum(kube_node_info{clustername=~"$clustername"})',
+    'sum(kube_node_info{})',
     legendFormat='Number of nodes',
   )
 ).addTarget(
@@ -455,7 +409,7 @@ local current_namespace_count = grafana.statPanel.new(
   graphMode='none',
 ).addTarget(
   prometheus.target(
-    'count(kube_namespace_created{clustername=~"$clustername"})',
+    'count(kube_namespace_created{})',
     legendFormat='Namespace Count',
   )
 );
@@ -465,7 +419,7 @@ local current_pod_count = grafana.statPanel.new(
   datasource='$datasource',
 ).addTarget(
   prometheus.target(
-    'sum(kube_pod_status_phase{namespace=~"$namespace",clustername=~"$clustername"}) by (phase)',
+    'sum(kube_pod_status_phase{namespace=~"$namespace"}) by (phase)',
     legendFormat='{{ phase}} Pods',
   )
 );
@@ -558,6 +512,7 @@ local cmCount = grafana.graphPanel.new(
   legend_max=true,
   legend_sort='max',
   legend_sortDesc=true,
+  legend_hideZero=true,
 ).addTarget(
   prometheus.target(
     'count(kube_configmap_info{})',
@@ -568,6 +523,7 @@ local cmCount = grafana.graphPanel.new(
 local alerts = grafana.graphPanel.new(
   title='Alerts',
   datasource='$datasource',
+  nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
     'topk(10,sum(ALERTS{severity!="none"}) by (alertname, severity))',
@@ -576,7 +532,7 @@ local alerts = grafana.graphPanel.new(
 );
 
 local top10ContMem = grafana.graphPanel.new(
-  title='Top 10 container memory',
+  title='Top 10 container RSS',
   datasource='$datasource',
   format='bytes',
   legend_values=true,
@@ -584,6 +540,7 @@ local top10ContMem = grafana.graphPanel.new(
   legend_current=true,
   legend_rightSide=true,
   legend_sideWidth=250,
+  nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
     'topk(10, container_memory_rss{namespace!="",name!=""})',
@@ -600,86 +557,22 @@ local top10ContCPU = grafana.graphPanel.new(
   legend_current=true,
   legend_rightSide=true,
   legend_sideWidth=250,
+  nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
-    'topk(10,rate(container_cpu_usage_seconds_total{namespace!="",name!=""}[2m]))*100',
+    'topk(10,rate(container_cpu_usage_seconds_total{namespace!="",name!=""}[2m])*100)',
     legendFormat='{{ namespace }} - {{ name }}',
   )
 );
 
-local apiReqCount = grafana.graphPanel.new(
-  title='API Request Count',
-  datasource='$datasource',
-).addTarget(
-  prometheus.target(
-    'sum by (instance,service) (rate(apiserver_request_count{}[2m]))',
-    legendFormat='{{service}} - {{instance}}',
-  )
-);
-
-local inflight_api_requests = grafana.graphPanel.new(
-  title='Inflight API Requests',
-  datasource='$datasource',
-  legend_values=true,
-  legend_alignAsTable=true,
-  legend_current=true,
-  legend_max=true,
-  legend_sort='max',
-  legend_sortDesc=true,
-).addTarget(
-  prometheus.target(
-    'sum(apiserver_current_inflight_requests) by (requestKind)',
-    legendFormat='{{ requestKind }}',
-  )
-);
-
-local reqCount = grafana.graphPanel.new(
-  title='400/500 requests',
-  datasource='$datasource',
-  legend_values=true,
-  legend_alignAsTable=true,
-  legend_current=true,
-  legend_max=true,
-  legend_rightSide=true,
-  legend_sideWidth=150,
-).addTarget(
-  prometheus.target(
-    '100 * sum by(service,job) (rate(rest_client_requests_total{code=~"4.."}[2m])) / sum by(service,job) (rate(rest_client_requests_total{}[2m]))',
-    legendFormat='400s : {{service}} - {{job}}',
-  )
-).addTarget(
-  prometheus.target(
-    '100 * sum by(service,job) (rate(rest_client_requests_total{code=~"5.."}[2m])) / sum by(service,job) (rate(rest_client_requests_total{}[2m]))',
-    legendFormat='500s : {{service}} - {{job}}',
-  )
-);
-
-local api_requests_per_client = grafana.graphPanel.new(
-  title='API Requests per client',
-  datasource='$datasource',
-  legend_values=true,
-  legend_alignAsTable=true,
-  legend_current=true,
-  legend_max=true,
-  legend_sort='max',
-  legend_sortDesc=true,
-  legend_rightSide=true,
-).addTarget(
-  prometheus.target(
-    'sum(rate(apiserver_request_count{}[5m])) by (client,verb)',
-    legendFormat='{{client}} - {{verb}}',
-  )
-);
 
 local goroutines_count = grafana.graphPanel.new(
   title='Goroutines count',
   datasource='$datasource',
-  legend_values=true,
-  legend_alignAsTable=true,
-  legend_rightSide=true,
+  nullPointMode='null as zero',
 ).addTarget(
   prometheus.target(
-    'topk(10, sum(go_goroutines{clustername=~"$clustername"}) by (job,instance))',
+    'topk(10, sum(go_goroutines{}) by (job,instance))',
     legendFormat='{{job}} - {{instance}}',
   )
 );
@@ -802,20 +695,6 @@ grafana.dashboard.new(
   },
 )
 
-.addTemplate(
-  grafana.template.new(
-    'clustername',
-    '$datasource',
-    'label_values(process_cpu_seconds_total,clustername)',
-    '',
-    refresh=2,
-  ) {
-    type: 'query',
-    multi: false,
-    includeAll: false,
-  },
-)
-
 // Dashboard definition
 
 .addPanel(
@@ -861,11 +740,7 @@ grafana.dashboard.new(
     alerts { gridPos: { x: 0, y: 28, w: 24, h: 8 } },
     top10ContMem { gridPos: { x: 0, y: 36, w: 12, h: 8 } },
     top10ContCPU { gridPos: { x: 12, y: 36, w: 12, h: 8 } },
-    apiReqCount { gridPos: { x: 0, y: 44, w: 8, h: 8 } },
-    inflight_api_requests { gridPos: { x: 8, y: 44, w: 8, h: 8 } },
-    reqCount { gridPos: { x: 16, y: 44, w: 8, h: 8 } },
-    api_requests_per_client { gridPos: { x: 0, y: 52, w: 12, h: 8 } },
-    goroutines_count { gridPos: { x: 12, y: 52, w: 12, h: 8 } },
+    goroutines_count { gridPos: { x: 0, y: 44, w: 24, h: 8 } },
   ]
 ), { gridPos: { x: 0, y: 3, w: 24, h: 1 } })
 
@@ -878,8 +753,10 @@ grafana.dashboard.new(
     diskIOPS('$_master_node') { gridPos: { x: 12, y: 8, w: 12, h: 8 } },
     networkUtilization('$_master_node') { gridPos: { x: 0, y: 16, w: 12, h: 8 } },
     networkPackets('$_master_node') { gridPos: { x: 12, y: 16, w: 12, h: 8 } },
-    containerCPUUsage('$_master_node') { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
-    processRSS('$_master_node') { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
+    networkDrop('$_master_node') { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
+    conntrackStats('$_master_node') { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
+    top10ContainerCPU('$_master_node') { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
+    top10ContainerRSS('$_master_node') { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
   ],
 ), { gridPos: { x: 0, y: 1, w: 0, h: 8 } })
 
@@ -891,8 +768,10 @@ grafana.dashboard.new(
     diskIOPS('$_worker_node') { gridPos: { x: 12, y: 8, w: 12, h: 8 } },
     networkUtilization('$_worker_node') { gridPos: { x: 0, y: 16, w: 12, h: 8 } },
     networkPackets('$_worker_node') { gridPos: { x: 12, y: 16, w: 12, h: 8 } },
-    containerCPUUsage('$_worker_node') { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
-    processRSS('$_worker_node') { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
+    networkDrop('$_worker_node') { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
+    conntrackStats('$_worker_node') { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
+    top10ContainerCPU('$_worker_node') { gridPos: { x: 0, y: 32, w: 12, h: 8 } },
+    top10ContainerRSS('$_worker_node') { gridPos: { x: 12, y: 32, w: 12, h: 8 } },
   ],
 ), { gridPos: { x: 0, y: 1, w: 0, h: 8 } })
 
@@ -904,7 +783,9 @@ grafana.dashboard.new(
     diskIOPS('$_infra_node') { gridPos: { x: 12, y: 8, w: 12, h: 8 } },
     networkUtilization('$_infra_node') { gridPos: { x: 0, y: 16, w: 12, h: 8 } },
     networkPackets('$_infra_node') { gridPos: { x: 12, y: 16, w: 12, h: 8 } },
-    containerCPUUsage('$_infra_node') { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
-    processRSS('$_infra_node') { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
+    networkDrop('$_infra_node') { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
+    conntrackStats('$_infra_node') { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
+    top10ContainerCPU('$_infra_node') { gridPos: { x: 0, y: 24, w: 12, h: 8 } },
+    top10ContainerRSS('$_infra_node') { gridPos: { x: 12, y: 24, w: 12, h: 8 } },
   ],
 ), { gridPos: { x: 0, y: 1, w: 0, h: 8 } })
