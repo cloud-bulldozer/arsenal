@@ -520,6 +520,40 @@ local cmCount = grafana.graphPanel.new(
   )
 );
 
+local servicesCount = grafana.graphPanel.new(
+  title='Services count',
+  datasource='$datasource',
+  legend_values=true,
+  legend_alignAsTable=true,
+  legend_current=true,
+  legend_max=true,
+  legend_sort='max',
+  legend_sortDesc=true,
+  legend_hideZero=true,
+).addTarget(
+  prometheus.target(
+    'count(kube_service_info{})',
+    legendFormat='Services',
+  )
+);
+
+local routesCount = grafana.graphPanel.new(
+  title='Routes count',
+  datasource='$datasource',
+  legend_values=true,
+  legend_alignAsTable=true,
+  legend_current=true,
+  legend_max=true,
+  legend_sort='max',
+  legend_sortDesc=true,
+  legend_hideZero=true,
+).addTarget(
+  prometheus.target(
+    'count(openshift_route_info{})',
+    legendFormat='Routes',
+  )
+);
+
 local alerts = grafana.graphPanel.new(
   title='Alerts',
   datasource='$datasource',
@@ -576,6 +610,51 @@ local goroutines_count = grafana.graphPanel.new(
     legendFormat='{{job}} - {{instance}}',
   )
 );
+
+// Cluster operators
+
+local clusterOperatorsOverview = grafana.statPanel.new(
+  datasource='$datasource',
+  title='Cluster operators overview',
+).addTarget(
+  prometheus.target(
+    'sum by (condition)(cluster_operator_conditions{condition!=""})',
+    legendFormat='{{ condition }}',
+  )
+);
+
+local clusterOperatorsInformation = grafana.graphPanel.new(
+  datasource='$datasource',
+  title='Cluster operators information',
+  legend_values=true,
+  legend_alignAsTable=true,
+  legend_current=true,
+  legend_max=true,
+  legend_sort='max',
+  legend_sortDesc=true,
+).addTarget(
+  prometheus.target(
+    'cluster_operator_conditions{name!="",reason!=""}',
+    legendFormat='{{name}} - {{reason}}',
+  )
+);
+
+local clusterOperatorsDegraded = grafana.graphPanel.new(
+  datasource='$datasource',
+  title='Cluster operators degraded',
+  legend_values=true,
+  legend_alignAsTable=true,
+  legend_current=true,
+  legend_max=true,
+  legend_sort='max',
+  legend_sortDesc=true,
+).addTarget(
+  prometheus.target(
+    'cluster_operator_conditions{condition="Degraded",name!="",reason!=""}',
+    legendFormat='{{name}} - {{reason}}',
+  )
+);
+
 
 // Dashboard
 
@@ -725,7 +804,6 @@ grafana.dashboard.new(
   ), { gridPos: { x: 0, y: 2, w: 24, h: 1 } }
 )
 
-
 .addPanel(grafana.row.new(title='Cluster Details', collapse=true).addPanels(
   [
     current_node_count { gridPos: { x: 0, y: 4, w: 8, h: 3 } },
@@ -737,6 +815,8 @@ grafana.dashboard.new(
     secretCount { gridPos: { x: 0, y: 20, w: 8, h: 8 } },
     deployCount { gridPos: { x: 8, y: 20, w: 8, h: 8 } },
     cmCount { gridPos: { x: 16, y: 20, w: 8, h: 8 } },
+    servicesCount { gridPos: { x: 0, y: 20, w: 8, h: 8 } },
+    routesCount { gridPos: { x: 8, y: 20, w: 8, h: 8 } },
     alerts { gridPos: { x: 0, y: 28, w: 24, h: 8 } },
     top10ContMem { gridPos: { x: 0, y: 36, w: 12, h: 8 } },
     top10ContCPU { gridPos: { x: 12, y: 36, w: 12, h: 8 } },
@@ -744,6 +824,13 @@ grafana.dashboard.new(
   ]
 ), { gridPos: { x: 0, y: 3, w: 24, h: 1 } })
 
+.addPanel(grafana.row.new(title='Cluster Operators Details', collapse=true).addPanels(
+  [
+    clusterOperatorsOverview { gridPos: { x: 0, y: 4, w: 24, h: 3 } },
+    clusterOperatorsInformation { gridPos: { x: 0, y: 4, w: 8, h: 8 } },
+    clusterOperatorsDegraded { gridPos: { x: 8, y: 4, w: 8, h: 8 } },
+  ],
+), { gridPos: { x: 0, y: 4, w: 24, h: 1 } })
 
 .addPanel(grafana.row.new(title='Master: $_master_node', collapse=true, repeat='_master_node').addPanels(
   [
