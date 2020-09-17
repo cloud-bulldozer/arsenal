@@ -618,7 +618,7 @@ grafana.dashboard.new(
   grafana.template.new(
     '_worker_node',
     '$datasource',
-    'label_values(kube_node_role{role=~"work"}, node)',
+    'label_values(kube_node_role{role=~"work.*"}, node)',
     '',
     refresh=2,
   ) {
