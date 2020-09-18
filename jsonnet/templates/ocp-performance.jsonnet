@@ -391,6 +391,7 @@ local crioMemory = grafana.graphPanel.new(
 local current_node_count = grafana.statPanel.new(
   title='Current Node Count',
   datasource='$datasource',
+  reducerFunction='last',
 ).addTarget(
   prometheus.target(
     'sum(kube_node_info{})',
@@ -398,7 +399,7 @@ local current_node_count = grafana.statPanel.new(
   )
 ).addTarget(
   prometheus.target(
-    'sum(kube_node_status_condition{status="true"}) by (condition)',
+    'sum(kube_node_status_condition{status="true"}) by (condition) > 0',
     legendFormat='Node: {{ condition }}',
   )
 );
@@ -406,6 +407,7 @@ local current_node_count = grafana.statPanel.new(
 local current_namespace_count = grafana.statPanel.new(
   title='Current Namespace Count',
   datasource='$datasource',
+  reducerFunction='last',
   graphMode='none',
 ).addTarget(
   prometheus.target(
@@ -417,15 +419,17 @@ local current_namespace_count = grafana.statPanel.new(
 local current_pod_count = grafana.statPanel.new(
   title='Current Pod Count',
   datasource='$datasource',
+  reducerFunction='last',
 ).addTarget(
   prometheus.target(
-    'sum(kube_pod_status_phase{namespace=~"$namespace"}) by (phase)',
+    'sum(kube_pod_status_phase{namespace=~"$namespace"}) by (phase) > 0',
     legendFormat='{{ phase}} Pods',
   )
 );
 
 local nodeCount = grafana.graphPanel.new(
   title='Number of nodes',
+  format='none',
   datasource='$datasource',
   legend_values=true,
   legend_alignAsTable=true,
@@ -442,6 +446,7 @@ local nodeCount = grafana.graphPanel.new(
 local nsCount = grafana.graphPanel.new(
   datasource='$datasource',
   title='Namespace count',
+  format='none',
   legend_values=true,
   legend_alignAsTable=true,
   legend_current=true,
@@ -473,6 +478,7 @@ local podCount = grafana.graphPanel.new(
 
 local secretCount = grafana.graphPanel.new(
   title='Secret count',
+  format='none',
   datasource='$datasource',
   legend_values=true,
   legend_alignAsTable=true,
@@ -489,6 +495,7 @@ local secretCount = grafana.graphPanel.new(
 
 local deployCount = grafana.graphPanel.new(
   title='Deployment count',
+  format='none',
   datasource='$datasource',
   legend_values=true,
   legend_alignAsTable=true,
@@ -505,6 +512,7 @@ local deployCount = grafana.graphPanel.new(
 
 local cmCount = grafana.graphPanel.new(
   title='Configmap count',
+  format='none',
   datasource='$datasource',
   legend_values=true,
   legend_alignAsTable=true,
@@ -522,6 +530,7 @@ local cmCount = grafana.graphPanel.new(
 
 local alerts = grafana.graphPanel.new(
   title='Alerts',
+  format='none',
   datasource='$datasource',
   nullPointMode='null as zero',
 ).addTarget(
@@ -568,6 +577,7 @@ local top10ContCPU = grafana.graphPanel.new(
 
 local goroutines_count = grafana.graphPanel.new(
   title='Goroutines count',
+  format='none',
   datasource='$datasource',
   nullPointMode='null as zero',
 ).addTarget(
